@@ -11,9 +11,9 @@ import HomePage from './HomePage.jsx';
 import HowToUsePage from './HowToUsePage.jsx';
 import SettingsPage from './SettingsPage.jsx';
 import WorkspaceClockWeather from './WorkspaceClockWeather.jsx';
-import naujanSeal from '../../public/assets/naujan_seal_3d_bg_web.webp';
 import './payment.css';
 
+const naujanSeal = '/assets/naujan_seal_3d_bg_web.webp';
 const emptyRequest = { full_name: '', phone: '', address: '', sitio: '', document_type: 'Application for Marriage License', purpose: '' };
 const feedbackQuestions = [
   { key: 'staff_service_rating', label: 'How easy was it to submit your document request using the DocuQuest system?', tagalog: 'Gaano kadali magsumite ng document request gamit ang DocuQuest system?' },

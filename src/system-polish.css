@@ -1,13 +1,13 @@
 :root{--metal-gold:#c99d45;--metal-gold-light:#f7e6b2;--metal-gold-mid:#dfc071;--metal-gold-deep:#a97724;--metal-ink:#252018}
 .auth-layout,.workspace{position:relative;isolation:isolate;background:#f3f1eb}
 .auth-layout::before,.workspace::before{position:absolute;z-index:-1;inset:0;pointer-events:none;background-image:linear-gradient(115deg,#f5f2e9ed 10%,#f2eee4d9 48%,#eff2eae8 100%),url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1800&q=80');background-position:0% 48%;background-size:cover;content:'';animation:paper-drift 34s ease-in-out infinite alternate}
-.auth-copy{background:linear-gradient(125deg,#e8eee7ed,#e9efe8d8),url('../../public/assets/docuquest-background.svg') center/cover no-repeat}
+.auth-copy{background:linear-gradient(125deg,#e8eee7ed,#e9efe8d8),url('/assets/docuquest-background.svg') center/cover no-repeat}
 .auth-panel{background:#fffefbed;backdrop-filter:blur(12px)}
 .sidebar{background:#fffefbee;backdrop-filter:blur(14px)}
 .main-panel{background:transparent}
-.requester-workspace::before{background-image:linear-gradient(115deg,#f5f2e959 10%,#f2eee84d 48%,#eff2ea61 100%),url('../../public/assets/docuquest-paperwork.jpg');background-position:0% 48%;background-size:cover}
-.auth-layout::before{background-image:linear-gradient(115deg,#f5f2e99a 10%,#f2eee487 48%,#eff2eaa1 100%),url('../../public/assets/docuquest-paperwork.jpg');background-position:0% 48%;background-size:cover}
-.auth-copy{background:linear-gradient(125deg,#e8eee7b8,#e9efe8a8),url('../../public/assets/docuquest-background.svg') center/cover no-repeat}
+.requester-workspace::before{background-image:linear-gradient(115deg,#f5f2e959 10%,#f2eee84d 48%,#eff2ea61 100%),url('/assets/docuquest-paperwork.jpg');background-position:0% 48%;background-size:cover}
+.auth-layout::before{background-image:linear-gradient(115deg,#f5f2e99a 10%,#f2eee487 48%,#eff2eaa1 100%),url('/assets/docuquest-paperwork.jpg');background-position:0% 48%;background-size:cover}
+.auth-copy{background:linear-gradient(125deg,#e8eee7b8,#e9efe8a8),url('/assets/docuquest-background.svg') center/cover no-repeat}
 .primary-button,.hero-primary,.nav-create,.closing-cta>a,.search-button{border:1px solid #d7b660!important;border-radius:5px!important;background:linear-gradient(180deg,var(--metal-gold-light) 0%,var(--metal-gold-mid) 43%,#c69a43 72%,var(--metal-gold-deep) 100%)!important;box-shadow:inset 0 1px 0 #fff8dfb8,inset 0 -1px 0 #8a5c1d48,0 3px 9px #7d5b242d!important;color:var(--metal-ink)!important;text-shadow:0 1px 0 #fff5d5a8;font-weight:700;transition:filter .18s,transform .18s,box-shadow .18s}
 .primary-button:hover,.hero-primary:hover,.nav-create:hover,.closing-cta>a:hover,.search-button:hover{filter:brightness(1.06) saturate(1.05);transform:translateY(-1px);box-shadow:inset 0 1px 0 #fffbe8d9,inset 0 -1px 0 #8a5c1d48,0 5px 13px #7d5b2440!important}
 .primary-button:active,.hero-primary:active,.nav-create:active,.closing-cta>a:active,.search-button:active{transform:translateY(1px);filter:brightness(.98)}

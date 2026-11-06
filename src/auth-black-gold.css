@@ -2,7 +2,7 @@
 .auth-layout::before{z-index:0;background-image:none;opacity:0;animation:none}
 .auth-layout>*{position:relative;z-index:1}
 .auth-copy{isolation:isolate;overflow:hidden;border-right:1px solid #b88c27;background:#08291f}
-.auth-copy::before{position:absolute;z-index:0;inset:-10px;pointer-events:none;background-image:url('../../public/assets/naujan_municipal_hall_bg.webp');background-position:center;background-size:cover;background-repeat:no-repeat;filter:blur(4px) brightness(.9) saturate(.95);transform:scale(1.04);content:''}
+.auth-copy::before{position:absolute;z-index:0;inset:-10px;pointer-events:none;background-image:url('/assets/naujan_municipal_hall_bg.webp');background-position:center;background-size:cover;background-repeat:no-repeat;filter:blur(4px) brightness(.9) saturate(.95);transform:scale(1.04);content:''}
 .auth-copy::after{position:absolute;z-index:0;inset:0;width:auto;height:auto;border:0;border-radius:0;box-shadow:none;pointer-events:none;background-image:linear-gradient(180deg,#06271c20 0%,#082b2020 46%,#06261c26 100%);content:''}
 .auth-copy>*{position:relative;z-index:1}
 .auth-message h1,.auth-message>.eyebrow,.auth-message>p:not(.eyebrow),.trust-note,.auth-index{text-shadow:0 2px 14px #001d15a6}

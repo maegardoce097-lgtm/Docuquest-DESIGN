@@ -1,5 +1,5 @@
 .workspace-black{--requester-ink:#f3ecdc;--requester-muted:#b9ae98;--requester-line:#51432a;--requester-panel:#171510;--requester-panel-raised:#201d16;background:#0d0c0a;color:var(--requester-ink)}
-.workspace-black::before{background-image:linear-gradient(115deg,#110f0be3 9%,#14120ed1 49%,#100f0cde 100%),url('../../public/assets/docuquest-paperwork.jpg');background-position:0% 48%;background-size:cover}
+.workspace-black::before{background-image:linear-gradient(115deg,#110f0be3 9%,#14120ed1 49%,#100f0cde 100%),url('/assets/docuquest-paperwork.jpg');background-position:0% 48%;background-size:cover}
 .workspace-black .sidebar{border-color:var(--requester-line);background:#11100df0;backdrop-filter:blur(14px)}
 .workspace-black .brand{color:#f2e8d2}.workspace-black .brand-mark{border:1px solid #d5b45e;background:linear-gradient(145deg,#f0dc9c,#c69a43 65%,#956622);color:#221a0d}
 .workspace-black .side-label{color:#b9a982}.workspace-black .side-link{color:#c8bda6}.workspace-black .side-link:hover{background:#252116;color:#f0d58e}.workspace-black .side-link.active{background:#332a18;color:#f3d37e}.workspace-black .side-link span{color:#dfc477}
@@ -57,7 +57,7 @@
 	background:#f1e8d6;
 	color:var(--requester-ink);
 }
-.requester-workspace::before{z-index:0;background-image:url('../../public/assets/naujan_seal_3d_bg_web.webp');background-position:calc(50% + 140px) 54%;background-size:clamp(1050px,125vw,1550px) auto;background-repeat:no-repeat;opacity:1;mix-blend-mode:screen;animation:none}
+.requester-workspace::before{z-index:0;background-image:url('/assets/naujan_seal_3d_bg_web.webp');background-position:calc(50% + 140px) 54%;background-size:clamp(1050px,125vw,1550px) auto;background-repeat:no-repeat;opacity:1;mix-blend-mode:screen;animation:none}
 .requester-workspace::after{display:none}
 .requester-workspace>.sidebar{z-index:1;border-color:#dfd2b6;background:#fbf7eced;backdrop-filter:blur(14px)}
 .requester-workspace>.main-panel{position:relative;z-index:1;background:transparent;color:#383329}
@@ -235,8 +235,8 @@
 	background:#08291f;
 	color:#f4f4e9;
 }
-.requester-workspace::before{z-index:0;background-image:url('../../public/assets/naujan_municipal_hall_bg.webp');background-position:-35% center;background-size:112% 100%;background-repeat:no-repeat;opacity:1;mix-blend-mode:normal;animation:none}
-.requester-workspace.workspace::after{display:block;position:absolute;z-index:0;inset:0;pointer-events:none;background-image:url('../../public/assets/naujan_seal_premium_bg.jpg');background-position:calc(50% + 140px) 54%;background-size:clamp(760px,76vw,1120px) auto;background-repeat:no-repeat;content:'';opacity:.16;mix-blend-mode:screen}
+.requester-workspace::before{z-index:0;background-image:url('/assets/naujan_municipal_hall_bg.webp');background-position:-35% center;background-size:112% 100%;background-repeat:no-repeat;opacity:1;mix-blend-mode:normal;animation:none}
+.requester-workspace.workspace::after{display:block;position:absolute;z-index:0;inset:0;pointer-events:none;background-image:url('/assets/naujan_seal_premium_bg.jpg');background-position:calc(50% + 140px) 54%;background-size:clamp(760px,76vw,1120px) auto;background-repeat:no-repeat;content:'';opacity:.16;mix-blend-mode:screen}
 .requester-workspace>.sidebar{z-index:1;border-color:#315342;background:#08291ff2;color:#f4f4e9;backdrop-filter:blur(14px)}
 .requester-workspace>.main-panel{position:relative;z-index:1;background:transparent;color:#f4f4e9}
 .requester-workspace .brand{color:#fff}
@@ -358,7 +358,7 @@
 @media(max-width:740px){.requester-workspace::before{background-position:-35% center;background-size:112% 100%;opacity:1}.requester-workspace.workspace::after{background-position:center 48%;background-size:clamp(700px,130vw,1000px) auto;opacity:.12}}
 .requester-workspace .top-actions{align-items:center}
 .requester-workspace .top-actions>.icon-button{transform:none}
-.requester-workspace .top-actions::before{content:'';display:block;order:1;flex:0 0 102px;width:102px;height:102px;align-self:center;background:url('../../public/assets/naujan_seal_3d_bg_web.webp') center/cover no-repeat;clip-path:circle(37% at 50% 50%);mix-blend-mode:normal;filter:saturate(1.4) contrast(1.2) drop-shadow(0 3px 5px #49330b88);pointer-events:none}
+.requester-workspace .top-actions::before{content:'';display:block;order:1;flex:0 0 102px;width:102px;height:102px;align-self:center;background:url('/assets/naujan_seal_3d_bg_web.webp') center/cover no-repeat;clip-path:circle(37% at 50% 50%);mix-blend-mode:normal;filter:saturate(1.4) contrast(1.2) drop-shadow(0 3px 5px #49330b88);pointer-events:none}
 @media(max-width:740px){.requester-workspace .top-actions::before{flex-basis:76px;width:76px;height:76px}}
 .requester-workspace.workspace::after{display:none}
 .requester-workspace .topbar,.requester-workspace .page-footer{margin-right:-4.1vw;margin-left:-4.1vw;padding-right:4.1vw;padding-left:4.1vw;border-color:#9a722b;background:linear-gradient(115deg,#fff5d45c 0%,transparent 34%,#8b631d16 68%,#fff3ca35 100%),linear-gradient(108deg,#f4e0aa 0%,#d4b25f 28%,#f0d78f 52%,#bd903d 76%,#ead18a 100%);box-shadow:inset 0 1px 0 #fff9,0 5px 18px #0005;color:#30230d}

@@ -2,7 +2,6 @@ import { Fragment, useEffect, useState } from 'react';
 import { ArrowDown, ArrowRight, ArrowUpRight, BadgeCheck, Check, ChevronDown, FileCheck2, FilePlus2, FileSearch, Menu, ShieldCheck, X } from 'lucide-react';
 import { ADMIN_URL, apiRequest, appUrl, homepageImageUrl } from './api.js';
 import { DEFAULT_HOMEPAGE_CONTENT, mergeHomepageContent } from './homepage-content.js';
-import naujanSeal from '../../public/assets/naujan_seal_3d_bg_web.webp';
 import './home.css';
 import './home-motion.css';
 import './video-inspired.css';
@@ -10,6 +9,7 @@ import './black-gold.css';
 import './home-premium.css';
 
 const stepIcons = [FilePlus2, FileSearch, FileCheck2];
+const naujanSeal = '/assets/naujan_seal_3d_bg_web.webp';
 
 function scrollToSection(event, sectionId) {
   event.preventDefault();
