@@ -1,6 +1,9 @@
 const configuredApiBase = import.meta.env.VITE_API_BASE;
 const injectedApiBase = document.querySelector('meta[name="docuquest-api-base"]')?.content;
-const API_BASE = configuredApiBase || injectedApiBase || '/api';
+const rawApiBase = String(configuredApiBase || injectedApiBase || '/api').trim().replace(/\/+$/, '') || '/api';
+const API_BASE = rawApiBase === '/api' || /\/api$/i.test(rawApiBase)
+  ? rawApiBase
+  : `${rawApiBase}/api`;
 export const APP_BASE_URL = new URL('../', document.querySelector('base')?.href || window.location.href).pathname;
 export const appUrl = (path = '') => `${APP_BASE_URL}${path.replace(/^\/+/, '')}`;
 export const ADMIN_URL = appUrl('admin');
