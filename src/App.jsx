@@ -251,6 +251,9 @@ export default function App() {
       if (!active || !window.google?.accounts?.id || !googleButtonRef.current) return;
       window.google.accounts.id.initialize({
         client_id: GOOGLE_CLIENT_ID,
+        auto_select: false,
+        cancel_on_tap_outside: true,
+        context: 'signin',
         callback: async ({ credential }) => {
           setBusy(true);
           setError('');
