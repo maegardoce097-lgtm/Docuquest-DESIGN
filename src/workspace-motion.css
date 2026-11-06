@@ -1,0 +1,15 @@
+.workspace::after{position:absolute;z-index:-1;inset:0;pointer-events:none;background:linear-gradient(112deg,transparent 27%,#d8b55c08 43%,#f0d48a16 50%,#d8b55c08 57%,transparent 74%);background-size:240% 100%;content:'';animation:gold-sweep 27s ease-in-out infinite alternate}
+.workspace .topbar h1{animation:workspace-title-arrive .68s cubic-bezier(.2,.82,.28,1.12) both}
+.workspace-black .stat{animation:workspace-item-arrive .52s cubic-bezier(.2,.75,.25,1) both}
+.workspace-black .stat:nth-child(2){animation-delay:70ms}.workspace-black .stat:nth-child(3){animation-delay:140ms}
+.workspace-black .request-aside{animation:workspace-item-arrive .65s cubic-bezier(.2,.75,.25,1) 100ms both}
+.workspace-black .live-tag>span{animation:gold-beacon 2.8s ease-in-out infinite}
+.workspace-black .conversation-choice{animation:workspace-item-arrive .4s ease-out both}
+.workspace-black .conversation-choice:nth-of-type(2){animation-delay:45ms}.workspace-black .conversation-choice:nth-of-type(3){animation-delay:90ms}
+.workspace-black .message-bubble{animation:message-arrive .34s cubic-bezier(.2,.75,.25,1) both}
+@keyframes gold-sweep{0%{background-position:100% 50%;opacity:.3}50%{opacity:.85}100%{background-position:0% 50%;opacity:.35}}
+@keyframes gold-beacon{0%,100%{box-shadow:0 0 0 0 #d9b65800}50%{box-shadow:0 0 0 5px #d9b65826}}
+@keyframes workspace-title-arrive{0%{opacity:0;transform:translateY(12px) scale(.985)}68%{opacity:1;transform:translateY(-2px) scale(1)}84%{transform:translateY(1px)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes workspace-item-arrive{0%{opacity:0;transform:translateY(10px)}74%{opacity:1;transform:translateY(-1px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes message-arrive{0%{opacity:0;transform:translateY(6px) scale(.99)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@media(prefers-reduced-motion:reduce){.workspace::after{animation:none}.workspace .topbar h1,.workspace-black .stat,.workspace-black .request-aside,.workspace-black .conversation-choice,.workspace-black .message-bubble{animation:none}.workspace-black .live-tag>span{animation:none}}

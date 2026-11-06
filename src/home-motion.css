@@ -1,0 +1,13 @@
+.marketing-home.motion-ready [data-reveal]{opacity:0;transform:translate3d(0,22px,0);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:var(--reveal-delay,0ms)}
+.marketing-home.motion-ready [data-reveal].is-visible{opacity:1;transform:translate3d(0,0,0)}
+.marketing-home.motion-ready .hero-primary svg{transition:transform .22s ease}
+.marketing-home.motion-ready .hero-primary:hover svg{transform:translateX(4px)}
+.marketing-home.motion-ready .document-item{transition:background .2s ease,transform .2s ease}
+.marketing-home.motion-ready .document-item:hover{background:#eee8dc;transform:translateX(4px)}
+.tracking-live i{animation:status-beacon 2.1s ease-in-out infinite}
+.tracking-step.current>i{animation:status-ring 2.4s ease-out infinite}
+@keyframes status-beacon{0%,100%{box-shadow:0 0 0 0 #67a27100}50%{box-shadow:0 0 0 5px #67a27124}}
+@keyframes status-ring{0%,100%{box-shadow:0 0 0 0 #7ba38400}50%{box-shadow:0 0 0 4px #7ba38424}}
+@keyframes hero-frame-drift{0%{object-position:50% 48%;filter:saturate(1)}100%{object-position:55% 61%;filter:saturate(1.06) brightness(1.025)}}
+@keyframes hero-light-sweep{0%,58%{left:-55%;opacity:0}68%{opacity:1}88%,100%{left:120%;opacity:0}}
+@media(prefers-reduced-motion:reduce){.marketing-home *, .marketing-home *::before,.marketing-home *::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}.marketing-home.motion-ready [data-reveal]{opacity:1;transform:none;clip-path:none}}

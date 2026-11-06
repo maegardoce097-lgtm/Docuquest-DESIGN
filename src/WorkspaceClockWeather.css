@@ -1,0 +1,12 @@
+.workspace-clock-weather{display:flex;align-items:center;justify-content:center;gap:14px;min-width:0;padding:9px 13px;border:1px solid #d6bd67;border-radius:7px;background:#fffdf4e8;color:#18382c;box-shadow:0 4px 12px #28200b1a}
+.workspace-clock{display:grid;gap:2px;min-width:0}
+.workspace-clock strong{font-size:14px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.workspace-clock span,.workspace-weather small{color:#655b44;font-size:9px;line-height:1.35;white-space:nowrap}
+.workspace-weather-divider{width:1px;height:32px;background:#d8c891}
+.workspace-weather{display:flex;align-items:center;gap:8px;min-width:0}
+.workspace-weather>svg{flex:none;color:#9c7724}
+.workspace-weather>span{display:grid;gap:2px;min-width:0}
+.workspace-weather strong{max-width:180px;color:#294638;font-size:10px;font-weight:800;line-height:1.3}
+@media(max-width:980px){.workspace .topbar{flex-wrap:wrap;gap:12px}.workspace .topbar>.top-actions{margin-left:auto}}
+@media(max-width:740px){.workspace .topbar>.top-actions{flex-wrap:nowrap;justify-content:flex-end;max-width:100%}.workspace-clock-weather{order:0}}
+@media(max-width:560px){.workspace-clock-weather{gap:9px;padding:8px 10px}.workspace-clock strong{font-size:12px}.workspace-clock span,.workspace-weather small{font-size:8px}.workspace-weather strong{max-width:130px;font-size:9px}}

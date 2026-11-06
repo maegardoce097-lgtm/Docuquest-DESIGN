@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: docuquest-frontend
+    runtime: static
+    buildCommand: npm ci && npm run build:render
+    staticPublishPath: ./dist
+    autoDeploy: true
+    envVars:
+      - key: VITE_API_BASE
+        sync: false
+      - key: VITE_GOOGLE_CLIENT_ID
+        sync: false
+      - key: VITE_RECAPTCHA_SITE_KEY
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
