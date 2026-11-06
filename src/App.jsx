@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, BadgeCheck, BarChart3, Bell, BookOpen, Check, CreditCard, Download, FilePlus2, FileText, FolderOpen, LogOut, Mail, RefreshCw, Search, Send, Settings2, ShieldCheck, Star, Trash2, Upload, X } from 'lucide-react';
 import { apiRequest, appUrl, APP_BASE_URL, clearTokens, downloadRequestFile, hasSession, homepageImageUrl, logout, postJson } from './api.js';
-import { getRecaptchaToken } from './recaptcha.js';
+import { getRecaptchaToken, initializeRecaptcha } from './recaptcha.js';
 import AdminArchive from './AdminArchive.jsx';
 import AdminReports from './AdminReports.jsx';
 import AdminFeedback from './AdminFeedback.jsx';
@@ -24,6 +24,8 @@ const feedbackQuestions = [
 ];
 const emptyFeedbackRatings = Object.fromEntries(feedbackQuestions.map(({ key }) => [key, 0]));
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+
+initializeRecaptcha().catch(() => {});
 const DOCUMENT_GUIDES = {
   'Application for Marriage License': {
     english: 'Use this service to ask the Municipal Registrar about applying for a marriage license before a wedding. The registrar will review your situation and explain the applicable eligibility, documents, and next steps.',
@@ -990,7 +992,7 @@ export default function App() {
                 || (activeRequest.payment?.status === 'waived' && Number(activeRequest.payment.amount) === 0);
               const disabledForPayment = ['approved', 'ready_for_pickup', 'completed'].includes(key) && !paymentSatisfied;
               return <option key={key} value={key} disabled={disabledForProgress || disabledForPayment || disabledForRequirements}>{value.label}{disabledForProgress ? key === activeRequest.request.status ? ' · current progress' : key !== 'rejected' ? ' · next step only' : '' : disabledForRequirements ? ' · requirements upload/verification needed' : disabledForPayment ? ' · payment required' : ''}</option>;
-            })}</select>{!(activeRequest.payment?.status === 'paid' || (activeRequest.payment?.status === 'waived' && Number(activeRequest.payment.amount) === 0)) && <span className="status-payment-gate" role="note"><strong>Payment required</strong><span>Payment must be confirmed or waived before approval or release.</span></span>}</label>
+            })}</select></label>
             <label className="progress-note-field">Progress note<textarea rows="3" value={statusForm.note} maxLength="1000" onChange={(event) => setStatusForm({ ...statusForm, note: event.target.value })} placeholder="Explain what changed in this update." disabled={['completed', 'rejected'].includes(activeRequest.request.status)} /></label>
           </div>
           <label className="status-editor-requirements">Requirements before release<textarea rows="3" value={statusForm.requirements} maxLength="5000" onChange={(event) => setStatusForm({ ...statusForm, requirements: event.target.value })} placeholder="List documents, fees, or steps the requester must complete." disabled={['completed', 'rejected'].includes(activeRequest.request.status)} /></label>
@@ -1012,7 +1014,7 @@ export default function App() {
               })}</div> : <span className="requirement-upload-pending">Wala pang naiu-upload na file.</span>}
             </div>;
           })}</div>}
-          {statusForm.status !== 'completed' && <div className="release-scheduler"><div className="release-scheduler-heading"><strong>Release date and time</strong><small>Philippine Standard Time</small></div><label>Date<input type="date" value={statusForm.release_at.slice(0, 10)} min={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10)} onChange={(event) => { const time = statusForm.release_at.slice(11, 16) || '09:00'; setStatusForm({ ...statusForm, release_at: `${event.target.value}T${time}` }); }} required={statusForm.status === 'ready_for_pickup'} disabled={['completed', 'rejected'].includes(activeRequest.request.status)} /></label><label>Time (8:00 AM-5:00 PM)<input type="time" min="08:00" max="17:00" step="900" value={statusForm.release_at.slice(11, 16)} onChange={(event) => { const date = statusForm.release_at.slice(0, 10) || new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10); setStatusForm({ ...statusForm, release_at: `${date}T${event.target.value}` }); }} required={statusForm.status === 'ready_for_pickup'} disabled={['completed', 'rejected'].includes(activeRequest.request.status)} /></label><div className="release-presets" aria-label="Quick release times"><span>Quick set</span><button type="button" onClick={() => setReleaseTime(9)}>9:00 AM</button><button type="button" onClick={() => setReleaseTime(13)}>1:00 PM</button><button type="button" onClick={() => setReleaseTime(15)}>3:00 PM</button></div></div>}
+          {statusForm.status !== 'completed' && <div className="release-scheduler"><div className="release-scheduler-heading"><strong>Release date and time</strong><small>Philippine Standard Time</small></div><label>Date<input type="date" value={statusForm.release_at.slice(0, 10)} min={new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10)} onChange={(event) => { const time = statusForm.release_at.slice(11, 16) || '09:00'; setStatusForm({ ...statusForm, release_at: `${event.target.value}T${time}` }); }} required={statusForm.status === 'ready_for_pickup'} disabled={['completed', 'rejected'].includes(activeRequest.request.status)} /></label><label>Time<input type="time" step="900" value={statusForm.release_at.slice(11, 16)} onChange={(event) => { const date = statusForm.release_at.slice(0, 10) || new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10); setStatusForm({ ...statusForm, release_at: `${date}T${event.target.value}` }); }} required={statusForm.status === 'ready_for_pickup'} disabled={['completed', 'rejected'].includes(activeRequest.request.status)} /></label><div className="release-presets" aria-label="Quick release times"><span>Quick set</span><button type="button" onClick={() => setReleaseTime(9)}>9:00 AM</button><button type="button" onClick={() => setReleaseTime(13)}>1:00 PM</button><button type="button" onClick={() => setReleaseTime(15)}>3:00 PM</button></div></div>}
           {statusForm.status === 'ready_for_pickup' && <small className="release-hint">A future release appointment is required for this status.</small>}
           <button className="primary-button" disabled={busy || ['completed', 'rejected'].includes(activeRequest.request.status) || statusForm.status === activeRequest.request.status}>{busy ? 'Saving…' : 'Save progress and email requester'}<Mail size={16} /></button>
         </form>}

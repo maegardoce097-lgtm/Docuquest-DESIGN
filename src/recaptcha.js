@@ -39,6 +39,10 @@ function loadRecaptcha() {
   return recaptchaPromise;
 }
 
+export async function initializeRecaptcha() {
+  return loadRecaptcha();
+}
+
 export async function getRecaptchaToken(action) {
   const recaptcha = await loadRecaptcha();
   return recaptcha.execute(SITE_KEY, { action });
