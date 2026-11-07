@@ -121,6 +121,7 @@
     font-size: 20px;
   }
 
+  .workspace .sidebar .side-link[href="#requests"],
   .workspace .sidebar .side-link[href="#new-request"],
   .workspace .sidebar .side-link[href="#messages"],
   .workspace .sidebar .side-link[href="#settings"],
@@ -149,9 +150,26 @@
 
   .workspace .top-actions .icon-button,
   .workspace .top-actions .mobile-logout-button {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     margin: 0;
+    border-color: rgba(139, 102, 31, .48);
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .workspace .top-actions .mobile-menu-button {
+    width: 42px;
+    height: 38px;
+    border: 1px solid #8b681f;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #fff0a8 0%, #d9b657 48%, #b8872f 100%) !important;
+    box-shadow: inset 0 1px 0 #fff9, 0 3px 8px rgba(91, 65, 19, .22);
+    color: #34250b;
+  }
+
+  .workspace .top-actions .icon-button + .icon-button {
+    margin-left: -1px;
   }
 
   .workspace .top-actions .mobile-logout-button,
@@ -163,24 +181,35 @@
     grid-column: 1;
     grid-row: 2;
     justify-self: center;
+    position: absolute;
+    left: 12px;
+  }
+
+  .workspace .top-actions {
+    position: relative;
   }
 
   .workspace .top-actions > .icon-button:nth-of-type(1) {
     grid-column: 2;
     grid-row: 2;
-    justify-self: center;
+    justify-self: end;
+    border-right-width: 0;
+    border-radius: 5px 0 0 5px;
   }
 
   .workspace .top-actions > .notification-button {
     grid-column: 3;
     grid-row: 2;
     justify-self: center;
+    border-radius: 0;
   }
 
   .workspace .top-actions > .mobile-logout-button {
     grid-column: 4;
     grid-row: 2;
-    justify-self: center;
+    justify-self: start;
+    border-left-width: 0;
+    border-radius: 0 5px 5px 0;
   }
 
   .workspace-clock-weather {
