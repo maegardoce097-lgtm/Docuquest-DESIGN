@@ -620,7 +620,13 @@
   }
 
   .workspace.requester-workspace .topbar > div:first-child {
+    min-height: 68px;
     padding-right: 10px;
+  }
+
+  .workspace.requester-workspace .topbar > div:first-child .eyebrow,
+  .workspace.requester-workspace .topbar > div:first-child h1 {
+    display: none;
   }
 
   .workspace.requester-workspace .content-grid.requester-new-request-grid {
