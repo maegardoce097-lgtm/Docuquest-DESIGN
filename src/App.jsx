@@ -247,6 +247,7 @@ export default function App() {
     if (mode !== 'login' || user || !GOOGLE_CLIENT_ID || !googleButtonRef.current) return undefined;
 
     let active = true;
+    let renderedWidth = 0;
     const renderButton = () => {
       if (!active || !window.google?.accounts?.id || !googleButtonRef.current) return;
       window.google.accounts.id.initialize({
@@ -268,13 +269,17 @@ export default function App() {
           }
         },
       });
+      const availableWidth = Math.floor(googleButtonRef.current.getBoundingClientRect().width || 320);
+      const buttonWidth = Math.max(200, Math.min(400, availableWidth));
+      if (renderedWidth === buttonWidth) return;
+      renderedWidth = buttonWidth;
       googleButtonRef.current.innerHTML = '';
       window.google.accounts.id.renderButton(googleButtonRef.current, {
         theme: 'outline',
         size: 'large',
         shape: 'rectangular',
         text: 'continue_with',
-        width: 320,
+        width: buttonWidth,
       });
     };
 
@@ -293,8 +298,16 @@ export default function App() {
       script.addEventListener('load', renderButton);
     }
 
+    const resizeObserver = typeof ResizeObserver === 'undefined'
+      ? null
+      : new ResizeObserver(renderButton);
+    resizeObserver?.observe(googleButtonRef.current);
+    window.addEventListener('resize', renderButton);
+
     return () => {
       active = false;
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', renderButton);
       script?.removeEventListener('load', renderButton);
     };
   }, [mode, user]);
