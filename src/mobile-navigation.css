@@ -65,6 +65,9 @@
     height: 30px;
     font-size: 10px;
     border-radius: 6px;
+    background: url('/assets/naujan_seal_3d_bg_web.webp') center / cover no-repeat;
+    color: transparent;
+    text-indent: -9999px;
   }
 
   .workspace .sidebar .side-link {
