@@ -168,4 +168,172 @@
     max-width: 100%;
     min-width: 0;
   }
+
+  .workspace .main-panel,
+  .workspace .content-grid,
+  .workspace .requester-new-request-grid,
+  .workspace .request-form-enhanced,
+  .workspace .request-form-section,
+  .workspace .settings-page,
+  .workspace .settings-card,
+  .workspace .messages-layout,
+  .workspace .conversation-panel {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .workspace .main-panel {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .workspace .content-grid,
+  .workspace .requester-new-request-grid,
+  .workspace .request-form-enhanced,
+  .workspace .request-form-section,
+  .workspace .payment-admin-form,
+  .workspace .status-editor-fields,
+  .workspace .settings-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .workspace .form-stack {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .workspace .form-stack label {
+    min-width: 0;
+  }
+
+  .workspace .form-stack input,
+  .workspace .form-stack select,
+  .workspace .form-stack textarea,
+  .workspace .status-editor input,
+  .workspace .status-editor select,
+  .workspace .status-editor textarea,
+  .workspace .message-form input,
+  .workspace .conversation-compose textarea {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+
+  .workspace .form-stack textarea,
+  .workspace .status-editor textarea {
+    min-height: 96px;
+  }
+
+  .workspace .primary-button,
+  .workspace .secondary-button,
+  .workspace .search-button {
+    min-height: 44px;
+    box-sizing: border-box;
+  }
+
+  .workspace .form-actions,
+  .workspace .settings-actions,
+  .workspace .requester-workspace .request-actions,
+  .workspace .drawer-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .workspace .form-actions > button,
+  .workspace .settings-actions > button,
+  .workspace .requester-workspace .request-actions > button,
+  .workspace .drawer-actions > button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .workspace .request-form-section,
+  .workspace .settings-card,
+  .workspace .messages-layout,
+  .workspace .stat-row,
+  .workspace .request-aside,
+  .workspace .overview {
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .workspace .stat-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px;
+  }
+
+  .workspace .stat {
+    min-width: 0;
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .workspace .stat strong {
+    overflow-wrap: anywhere;
+  }
+
+  .workspace table,
+  .workspace .archive-table-wrap,
+  .workspace .report-table-wrap {
+    max-width: 100%;
+  }
+
+  .workspace .archive-table-wrap,
+  .workspace .report-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .workspace .detail-drawer {
+    left: 0;
+    width: 100%;
+    height: calc(100dvh - 12px);
+    max-height: calc(100dvh - 12px);
+    border-radius: 0;
+  }
+
+  .workspace .drawer-header,
+  .workspace .drawer-scroll {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .workspace .drawer-header {
+    padding: 14px;
+  }
+
+  .workspace .drawer-scroll {
+    padding: 14px 12px calc(20px + env(safe-area-inset-bottom));
+  }
+
+  .workspace .messages-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .workspace .conversation-list {
+    width: 100%;
+    max-height: 190px;
+  }
+
+  .workspace .conversation-compose {
+    grid-template-columns: minmax(0, 1fr) 44px;
+  }
+}
+
+@media (max-width: 380px) {
+  .workspace .main-panel {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .workspace .stat-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .workspace .stat:last-child {
+    grid-column: 1 / -1;
+  }
 }
