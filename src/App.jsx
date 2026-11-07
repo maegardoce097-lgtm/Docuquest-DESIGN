@@ -255,6 +255,9 @@ export default function App() {
         auto_select: false,
         cancel_on_tap_outside: true,
         context: 'signin',
+        ux_mode: 'popup',
+        itp_support: true,
+        use_fedcm_for_prompt: true,
         callback: async ({ credential }) => {
           setBusy(true);
           setError('');
