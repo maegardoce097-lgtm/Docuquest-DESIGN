@@ -11,19 +11,19 @@ export const homepageImageUrl = (slot, version = '') => `${API_BASE}/homepage/im
 const ACCESS_KEY = 'docuquest_access_token';
 const REFRESH_KEY = 'docuquest_refresh_token';
 
-let accessToken = sessionStorage.getItem(ACCESS_KEY) || '';
+let accessToken = localStorage.getItem(ACCESS_KEY) || '';
 
 function storeTokens(tokens) {
   accessToken = tokens?.access_token || '';
-  if (accessToken) sessionStorage.setItem(ACCESS_KEY, accessToken);
-  else sessionStorage.removeItem(ACCESS_KEY);
-  if (tokens?.refresh_token) sessionStorage.setItem(REFRESH_KEY, tokens.refresh_token);
+  if (accessToken) localStorage.setItem(ACCESS_KEY, accessToken);
+  else localStorage.removeItem(ACCESS_KEY);
+  if (tokens?.refresh_token) localStorage.setItem(REFRESH_KEY, tokens.refresh_token);
 }
 
 export function clearTokens() {
   accessToken = '';
-  sessionStorage.removeItem(ACCESS_KEY);
-  sessionStorage.removeItem(REFRESH_KEY);
+  localStorage.removeItem(ACCESS_KEY);
+  localStorage.removeItem(REFRESH_KEY);
 }
 
 async function send(path, options = {}, retry = true) {
@@ -33,7 +33,7 @@ async function send(path, options = {}, retry = true) {
 
   const response = await fetch(`${API_BASE}${path}`, { ...options, headers });
   if (response.status === 401 && retry && path !== '/refresh' && path !== '/login' && path !== '/create') {
-    const refreshToken = sessionStorage.getItem(REFRESH_KEY);
+    const refreshToken = localStorage.getItem(REFRESH_KEY);
     if (refreshToken) {
       const refreshed = await fetch(`${API_BASE}/refresh`, {
         method: 'POST',
@@ -76,7 +76,7 @@ export function postJson(path, value) {
 }
 
 export function logout() {
-  const refreshToken = sessionStorage.getItem(REFRESH_KEY);
+  const refreshToken = localStorage.getItem(REFRESH_KEY);
   const currentAccessToken = accessToken;
   clearTokens();
   if (!refreshToken && !currentAccessToken) return;
@@ -91,7 +91,7 @@ export function logout() {
 }
 
 export function hasSession() {
-  return Boolean(accessToken || sessionStorage.getItem(REFRESH_KEY));
+  return Boolean(accessToken || localStorage.getItem(REFRESH_KEY));
 }
 
 export async function fetchProtectedFile(path) {
