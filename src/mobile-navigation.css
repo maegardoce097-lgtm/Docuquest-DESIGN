@@ -619,6 +619,14 @@
     z-index: auto;
   }
 
+  .workspace.requester-workspace .topbar > div:first-child {
+    padding-right: 10px;
+  }
+
+  .workspace.requester-workspace .content-grid.requester-new-request-grid {
+    padding-top: 40px;
+  }
+
   .workspace.requester-workspace .top-actions .icon-button,
   .workspace.requester-workspace .top-actions .mobile-logout-button {
     border-color: #b9974a !important;
