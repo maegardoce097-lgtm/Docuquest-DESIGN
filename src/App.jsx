@@ -821,6 +821,7 @@ export default function App() {
               <a href="#settings" onClick={(event) => navigate(event, 'settings')}><Settings2 size={17} /><span>Settings</span></a>
               {user.role !== 'admin' && <a href="#guide" onClick={(event) => navigate(event, 'guide')}><BookOpen size={17} /><span>User guide</span></a>}
             </nav>
+            {notificationsOpen && <button type="button" className="notification-backdrop" aria-label="Close notifications" onClick={() => setNotificationsOpen(false)} />}
             {notificationsOpen && <div className="notification-popover">
               <div className="popover-heading"><strong>Notifications</strong><button className="icon-button" aria-label="Close notifications" onClick={() => setNotificationsOpen(false)}><X size={15} /></button></div>
               {notificationError && <p className="form-error notification-error" role="alert">{notificationError}</p>}
