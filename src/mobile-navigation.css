@@ -107,7 +107,9 @@
   }
 
   .workspace .topbar {
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 70;
     min-height: 0;
     padding: 10px 10px 8px;
     align-items: stretch;
