@@ -174,7 +174,19 @@
   }
 
   .workspace .top-actions::before {
-    display: none;
+    position: absolute;
+    z-index: 2;
+    top: -58px;
+    right: 140px;
+    width: 48px;
+    height: 48px;
+    display: block;
+    border: 2px solid #d7b34a;
+    border-radius: 50%;
+    background: #f1dc82 url('/assets/naujan_seal_3d_bg_web.webp') center/cover no-repeat;
+    box-shadow: 0 0 0 2px #08291f, 0 3px 8px rgba(0, 0, 0, .32);
+    clip-path: none;
+    content: '';
   }
 
   .workspace .top-actions .icon-button,
@@ -219,23 +231,26 @@
   }
 
   .workspace .top-actions > .icon-button:nth-of-type(1) {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: center;
+    position: absolute;
+    z-index: 3;
+    top: -58px;
+    right: 88px;
     border-radius: 5px;
   }
 
   .workspace .top-actions > .notification-button {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: center;
+    position: absolute;
+    z-index: 3;
+    top: -58px;
+    right: 44px;
     border-radius: 5px;
   }
 
   .workspace .top-actions > .mobile-logout-button {
-    grid-column: 3;
-    grid-row: 1;
-    justify-self: center;
+    position: absolute;
+    z-index: 3;
+    top: -58px;
+    right: 0;
     border-radius: 5px;
   }
 
