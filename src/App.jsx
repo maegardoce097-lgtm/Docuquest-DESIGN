@@ -811,16 +811,16 @@ export default function App() {
           <div><p className="eyebrow">{page === 'archive' ? 'ADMINISTRATION / RECORDS' : page === 'files' ? 'ADMINISTRATION / PRIVATE STORAGE' : page === 'feedback' ? 'ADMINISTRATION / REQUESTER EXPERIENCE' : page === 'messages' ? 'SECURE COMMUNICATION' : page === 'settings' ? 'ACCOUNT MANAGEMENT' : page === 'new-request' ? 'REQUEST PORTAL / NEW REQUEST' : page === 'guide' ? 'DOCUQUEST / USER GUIDE' : user.role === 'admin' ? 'ADMINISTRATION' : 'REQUEST PORTAL'}</p><h1 key={page}>{page === 'archive' ? 'Previous requests' : page === 'files' ? 'Submitted files' : page === 'feedback' ? 'DocuQuest feedback' : page === 'messages' ? 'Messages' : page === 'settings' ? 'Account settings' : page === 'new-request' ? 'Request a document' : page === 'guide' ? 'How to use DocuQuest' : `Good day, ${user.username?.split(' ')[0]}`}</h1></div>
           <div className="top-actions">
             <WorkspaceClockWeather />
-            <button className="icon-button mobile-menu-button" title="Open navigation menu" aria-label="Open navigation menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen((open) => !open)}><Menu size={18} /></button>
             <button className="icon-button" title="Refresh requests" aria-label="Refresh requests" onClick={() => loadWorkspace().catch((cause) => setError(cause.message))}><RefreshCw size={17} /></button>
             <button className="icon-button notification-button" title="Notifications" aria-label="Notifications" aria-expanded={notificationsOpen} onClick={toggleNotifications}><Bell size={18} />{unreadCount > 0 && <span className="notification-count">{unreadCount > 9 ? '9+' : unreadCount}</span>}</button>
             <button className="icon-button mobile-logout-button" title="Sign out" aria-label="Sign out" onClick={signOut}><LogOut size={17} /></button>
-            {mobileMenuOpen && <nav className="mobile-navigation-menu" aria-label="Workspace menu">
-              {user.role !== 'admin' && <a href="#new-request" onClick={(event) => navigate(event, 'new-request')}><FilePlus2 size={18} /><span>New request</span></a>}
-              <a href="#messages" onClick={(event) => navigate(event, 'messages')}><Send size={18} /><span>Messages</span></a>
-              <a href="#settings" onClick={(event) => navigate(event, 'settings')}><Settings2 size={18} /><span>Settings</span></a>
-              {user.role !== 'admin' && <a href="#guide" onClick={(event) => navigate(event, 'guide')}><BookOpen size={18} /><span>User guide</span></a>}
-            </nav>}
+            <nav className="mobile-navigation-menu" aria-label="Workspace menu">
+              {user.role !== 'admin' && <a href="#new-request" onClick={(event) => navigate(event, 'new-request')}><FilePlus2 size={17} /><span>New request</span></a>}
+              {user.role !== 'admin' && <a href="#requests" onClick={(event) => navigate(event, 'requests')}><FileText size={17} /><span>My requests</span></a>}
+              <a href="#messages" onClick={(event) => navigate(event, 'messages')}><Send size={17} /><span>Messages</span></a>
+              <a href="#settings" onClick={(event) => navigate(event, 'settings')}><Settings2 size={17} /><span>Settings</span></a>
+              {user.role !== 'admin' && <a href="#guide" onClick={(event) => navigate(event, 'guide')}><BookOpen size={17} /><span>User guide</span></a>}
+            </nav>
             {notificationsOpen && <div className="notification-popover">
               <div className="popover-heading"><strong>Notifications</strong><button className="icon-button" aria-label="Close notifications" onClick={() => setNotificationsOpen(false)}><X size={15} /></button></div>
               {notificationError && <p className="form-error notification-error" role="alert">{notificationError}</p>}
