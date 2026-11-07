@@ -167,19 +167,21 @@
     width: 100%;
     min-height: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(44px, 1fr));
+    grid-template-columns: 48px 44px 44px 44px;
     grid-template-rows: 48px 64px auto;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
-    gap: 5px;
+    gap: 2px;
     position: relative;
   }
 
   .workspace .top-actions::before {
-    position: absolute;
+    position: relative;
     z-index: 20;
-    top: 10px;
-    right: 140px;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    align-self: center;
     width: 48px;
     height: 48px;
     display: block;
@@ -225,21 +227,15 @@
   }
 
   .workspace .top-actions > .mobile-menu-button {
-    grid-column: 1 / -1;
-    grid-row: 1;
-    justify-self: end;
-    align-self: start;
-  }
-
-  .workspace .top-actions {
-    position: static;
+    display: none !important;
   }
 
   .workspace .top-actions > .icon-button:nth-of-type(1) {
-    position: absolute;
+    position: relative;
+    grid-column: 2;
+    grid-row: 1;
     z-index: 21;
-    top: 10px;
-    right: 88px;
+    justify-self: center;
     display: inline-grid !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -247,10 +243,11 @@
   }
 
   .workspace .top-actions > .notification-button {
-    position: absolute;
+    position: relative;
+    grid-column: 3;
+    grid-row: 1;
     z-index: 21;
-    top: 10px;
-    right: 44px;
+    justify-self: center;
     display: inline-grid !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -258,10 +255,11 @@
   }
 
   .workspace .top-actions > .mobile-logout-button {
-    position: absolute;
+    position: relative;
+    grid-column: 4;
+    grid-row: 1;
     z-index: 21;
-    top: 10px;
-    right: 0;
+    justify-self: center;
     display: inline-grid !important;
     visibility: visible !important;
     opacity: 1 !important;
