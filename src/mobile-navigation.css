@@ -165,9 +165,9 @@
     width: 100%;
     min-height: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(44px, 1fr));
-    grid-template-rows: 48px 64px auto;
-    justify-content: center;
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: 44px 64px auto;
+    justify-content: end;
     align-items: center;
     gap: 5px;
     position: relative;
@@ -179,12 +179,11 @@
 
   .workspace .top-actions .icon-button,
   .workspace .top-actions .mobile-logout-button {
-    width: 100%;
-    max-width: 52px;
+    width: 44px;
     height: 44px;
     margin: 0;
     border-color: rgba(139, 102, 31, .48);
-    border-radius: 5px;
+    border-radius: 0;
     box-sizing: border-box;
   }
 
@@ -199,7 +198,7 @@
   }
 
   .workspace .top-actions .icon-button + .icon-button {
-    margin-left: -1px;
+    margin-left: 0;
   }
 
   .workspace .top-actions .mobile-logout-button,
@@ -221,22 +220,22 @@
   .workspace .top-actions > .icon-button:nth-of-type(1) {
     grid-column: 1;
     grid-row: 1;
-    justify-self: center;
-    border-radius: 5px;
+    justify-self: end;
+    border-radius: 5px 0 0 5px;
   }
 
   .workspace .top-actions > .notification-button {
     grid-column: 2;
     grid-row: 1;
     justify-self: center;
-    border-radius: 5px;
+    border-radius: 0;
   }
 
   .workspace .top-actions > .mobile-logout-button {
     grid-column: 3;
     grid-row: 1;
-    justify-self: center;
-    border-radius: 5px;
+    justify-self: start;
+    border-radius: 0 5px 5px 0;
   }
 
   .workspace-clock-weather {
