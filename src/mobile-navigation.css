@@ -176,7 +176,7 @@
   .workspace .top-actions::before {
     position: absolute;
     z-index: 2;
-    top: -58px;
+    top: 10px;
     right: 140px;
     width: 48px;
     height: 48px;
@@ -227,13 +227,13 @@
   }
 
   .workspace .top-actions {
-    position: relative;
+    position: static;
   }
 
   .workspace .top-actions > .icon-button:nth-of-type(1) {
     position: absolute;
     z-index: 3;
-    top: -58px;
+    top: 10px;
     right: 88px;
     display: inline-grid !important;
     visibility: visible !important;
@@ -244,7 +244,7 @@
   .workspace .top-actions > .notification-button {
     position: absolute;
     z-index: 3;
-    top: -58px;
+    top: 10px;
     right: 44px;
     display: inline-grid !important;
     visibility: visible !important;
@@ -255,7 +255,7 @@
   .workspace .top-actions > .mobile-logout-button {
     position: absolute;
     z-index: 3;
-    top: -58px;
+    top: 10px;
     right: 0;
     display: inline-grid !important;
     visibility: visible !important;
