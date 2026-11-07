@@ -104,21 +104,47 @@
   }
 
   .workspace .topbar {
-    min-height: 0;
-    padding: 12px;
-    align-items: flex-start;
+    position: relative;
+    min-height: 180px;
+    padding: 10px 12px 12px;
+    align-items: stretch;
     flex-direction: column;
-    gap: 10px;
+    gap: 7px;
+    overflow: visible;
+    background:
+      linear-gradient(180deg, rgba(3, 43, 31, .96), rgba(5, 53, 38, .94)),
+      linear-gradient(90deg, transparent, rgba(220, 189, 92, .2), transparent);
   }
 
   .workspace .topbar > div:first-child {
     min-width: 0;
+    min-height: 44px;
+    padding-right: 52px;
+  }
+
+  .workspace .topbar > div:first-child::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    left: 12px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #d9b74a;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #ead37d, #be902f);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .25);
   }
 
   .workspace .topbar h1 {
+    margin: 6px 0 0 44px;
     max-width: 100%;
     overflow-wrap: anywhere;
-    font-size: 20px;
+    font-size: 19px;
+  }
+
+  .workspace .topbar .eyebrow {
+    margin: 4px 0 0 44px;
+    font-size: 8px;
   }
 
   .workspace .sidebar .side-link[href="#requests"],
@@ -132,9 +158,9 @@
   .workspace .top-actions {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, 42px);
-    grid-template-rows: 52px 42px auto;
-    justify-content: center;
+    grid-template-columns: repeat(3, 38px);
+    grid-template-rows: 48px 38px auto;
+    justify-content: end;
     align-items: center;
     gap: 0;
   }
@@ -142,10 +168,11 @@
   .workspace .top-actions::before {
     grid-column: 1 / -1;
     grid-row: 1;
-    width: 52px;
-    height: 52px;
-    flex-basis: 52px;
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
     justify-self: center;
+    transform: translateY(12px);
   }
 
   .workspace .top-actions .icon-button,
@@ -178,11 +205,10 @@
   }
 
   .workspace .top-actions > .mobile-menu-button {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: center;
-    position: absolute;
-    left: 12px;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
   }
 
   .workspace .top-actions {
@@ -190,7 +216,7 @@
   }
 
   .workspace .top-actions > .icon-button:nth-of-type(1) {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 2;
     justify-self: end;
     border-right-width: 0;
@@ -198,14 +224,14 @@
   }
 
   .workspace .top-actions > .notification-button {
-    grid-column: 3;
+    grid-column: 2;
     grid-row: 2;
     justify-self: center;
     border-radius: 0;
   }
 
   .workspace .top-actions > .mobile-logout-button {
-    grid-column: 4;
+    grid-column: 3;
     grid-row: 2;
     justify-self: start;
     border-left-width: 0;
