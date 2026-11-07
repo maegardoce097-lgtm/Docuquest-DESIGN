@@ -1,3 +1,7 @@
+.mobile-logout-button {
+  display: none;
+}
+
 @media (max-width: 740px) {
   .workspace {
     grid-template-columns: 1fr;
@@ -95,6 +99,53 @@
     display: grid;
     place-items: center;
     font-size: 8px;
+  }
+
+  .workspace .topbar {
+    min-height: 0;
+    padding: 12px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .workspace .topbar > div:first-child {
+    min-width: 0;
+  }
+
+  .workspace .topbar h1 {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    font-size: 20px;
+  }
+
+  .workspace .top-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 42px);
+    justify-content: end;
+    gap: 8px;
+  }
+
+  .workspace .top-actions::before {
+    display: none;
+  }
+
+  .workspace .top-actions .icon-button,
+  .workspace .top-actions .mobile-logout-button {
+    width: 42px;
+    height: 42px;
+    margin: 0;
+  }
+
+  .workspace .top-actions .mobile-logout-button {
+    display: inline-grid;
+  }
+
+  .workspace-clock-weather {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-bottom: 2px;
   }
 
   .workspace .main-panel {

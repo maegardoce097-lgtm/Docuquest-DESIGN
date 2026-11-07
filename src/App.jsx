@@ -811,6 +811,7 @@ export default function App() {
             <WorkspaceClockWeather />
             <button className="icon-button" title="Refresh requests" aria-label="Refresh requests" onClick={() => loadWorkspace().catch((cause) => setError(cause.message))}><RefreshCw size={17} /></button>
             <button className="icon-button notification-button" title="Notifications" aria-label="Notifications" aria-expanded={notificationsOpen} onClick={toggleNotifications}><Bell size={18} />{unreadCount > 0 && <span className="notification-count">{unreadCount > 9 ? '9+' : unreadCount}</span>}</button>
+            <button className="icon-button mobile-logout-button" title="Sign out" aria-label="Sign out" onClick={signOut}><LogOut size={17} /></button>
             {notificationsOpen && <div className="notification-popover">
               <div className="popover-heading"><strong>Notifications</strong><button className="icon-button" aria-label="Close notifications" onClick={() => setNotificationsOpen(false)}><X size={15} /></button></div>
               {notificationError && <p className="form-error notification-error" role="alert">{notificationError}</p>}
