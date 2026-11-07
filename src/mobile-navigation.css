@@ -165,9 +165,9 @@
     width: 100%;
     min-height: 0;
     display: grid;
-    grid-template-columns: repeat(3, 44px);
+    grid-template-columns: repeat(3, minmax(44px, 1fr));
     grid-template-rows: 48px 64px auto;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
     gap: 5px;
     position: relative;
@@ -179,7 +179,8 @@
 
   .workspace .top-actions .icon-button,
   .workspace .top-actions .mobile-logout-button {
-    width: 44px;
+    width: 100%;
+    max-width: 52px;
     height: 44px;
     margin: 0;
     border-color: rgba(139, 102, 31, .48);
