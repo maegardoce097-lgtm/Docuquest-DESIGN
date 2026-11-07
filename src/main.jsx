@@ -9,6 +9,7 @@ import './requester-black-gold.css';
 import './admin-black-gold.css';
 import './workspace-motion.css';
 import './auth-black-gold.css';
+import './mobile-navigation.css';
 
 function AppRoot() {
   const [transitioning, setTransitioning] = useState(false);
