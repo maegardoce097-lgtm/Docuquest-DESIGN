@@ -167,11 +167,11 @@
     width: 100%;
     min-height: 0;
     display: grid;
-    grid-template-columns: 48px 44px 44px 44px;
-    grid-template-rows: 48px 64px auto;
-    justify-content: end;
+    grid-template-columns: 52px repeat(3, 44px);
+    grid-template-rows: 52px 64px auto;
+    justify-content: center;
     align-items: center;
-    gap: 2px;
+    gap: 6px;
     position: relative;
   }
 
@@ -182,8 +182,8 @@
     grid-row: 1;
     justify-self: center;
     align-self: center;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     display: block;
     border: 3px solid #f5d969;
     border-radius: 50%;
