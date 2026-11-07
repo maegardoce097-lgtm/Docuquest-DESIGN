@@ -163,29 +163,18 @@
 
   .workspace .top-actions {
     width: 100%;
-    min-height: 48px;
+    min-height: 0;
     display: grid;
-    grid-template-columns: 48px repeat(3, 44px);
-    grid-template-rows: 48px 58px auto;
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: 48px 64px auto;
     justify-content: end;
     align-items: center;
-    gap: 2px;
+    gap: 5px;
     position: relative;
   }
 
   .workspace .top-actions::before {
-    position: absolute;
-    top: -58px;
-    right: 138px;
-    left: auto;
-    width: 48px;
-    height: 48px;
-    flex-basis: 48px;
-    border: 2px solid #d7b34a;
-    border-radius: 50%;
-    background-color: #f0d56f;
-    box-shadow: 0 0 0 2px rgba(8, 45, 34, .95), 0 3px 8px rgba(0, 0, 0, .32);
-    clip-path: none;
+    display: none;
   }
 
   .workspace .top-actions .icon-button,
@@ -229,24 +218,24 @@
   }
 
   .workspace .top-actions > .icon-button:nth-of-type(1) {
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 1;
     justify-self: center;
-    border-radius: 5px 0 0 5px;
+    border-radius: 5px;
   }
 
   .workspace .top-actions > .notification-button {
-    grid-column: 3;
+    grid-column: 2;
     grid-row: 1;
     justify-self: center;
-    border-radius: 0;
+    border-radius: 5px;
   }
 
   .workspace .top-actions > .mobile-logout-button {
-    grid-column: 4;
+    grid-column: 3;
     grid-row: 1;
     justify-self: center;
-    border-radius: 0 5px 5px 0;
+    border-radius: 5px;
   }
 
   .workspace-clock-weather {
@@ -499,12 +488,14 @@
     z-index: 95;
     grid-column: 1 / -1;
     grid-row: 2;
+    min-height: 64px;
+    align-items: stretch;
     width: 100%;
     max-width: none;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 5px;
-    padding: 6px 0 0;
+    padding: 6px 0;
     border: 0;
     border-top: 1px solid rgba(226, 198, 111, .35);
     border-radius: 0;
