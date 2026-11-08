@@ -658,6 +658,11 @@
 }
 
 @media (max-width: 740px) {
+  .workspace .top-actions::before {
+    display: none !important;
+    content: none;
+  }
+
   .workspace .sidebar {
     border-top-color: #9b7327;
     background:
@@ -723,16 +728,35 @@
     color: #30230d;
   }
 
-  .workspace .top-actions {
-    grid-template-columns: 66px repeat(3, minmax(44px, 1fr));
+  .workspace .conversation-compose {
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
-  .workspace .top-actions::before {
-    width: 62px;
-    height: 62px;
-    border: 3px solid #f5d969;
-    background: radial-gradient(circle, transparent 58%, rgba(121, 83, 18, .38) 59%), #e5c24e url('/assets/naujan_seal_3d_bg_web.webp') center / cover no-repeat;
-    box-shadow: 0 0 0 2px #8a641f, 0 0 0 5px rgba(216, 178, 68, .68), 0 4px 11px rgba(0, 0, 0, .4);
+  .workspace .conversation-compose-heading,
+  .workspace .conversation-compose textarea {
+    grid-column: 1 / -1;
+  }
+
+  .workspace .conversation-compose-heading {
+    grid-row: 1;
+  }
+
+  .workspace .conversation-compose textarea {
+    grid-row: 2;
+    width: 100%;
+    min-width: 0;
+    min-height: 72px;
+    box-sizing: border-box;
+  }
+
+  .workspace .conversation-compose .message-image-picker {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .workspace .conversation-compose > .primary-button {
+    grid-column: 2;
+    grid-row: 3;
   }
 
   .workspace .mobile-navigation-menu {
