@@ -684,6 +684,10 @@
     scroll-snap-align: center;
   }
 
+  .workspace .sidebar .side-label + .side-link {
+    margin-left: auto;
+  }
+
   .workspace .sidebar .side-link.active {
     border-color: #e0bd49;
     background: linear-gradient(145deg, #f3dfa0, #d0a83b 68%, #a87b12);
