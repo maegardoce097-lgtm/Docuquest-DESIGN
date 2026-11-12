@@ -156,6 +156,7 @@
 .requester-workspace .feedback-answer-list strong{flex:none;color:#80601e}
 .requester-workspace .feedback-thanks strong{color:#426b39;font-size:13px}
 .requester-workspace .feedback-thanks p{margin:0;color:#4e493e;font-size:12px;white-space:pre-wrap}
+.requester-workspace .feedback-source-note{margin:0;padding-top:9px;border-top:1px solid #eadfbd;color:#6b6251;font-size:10px;line-height:1.45;text-align:right}
 @media(max-width:740px){.requester-workspace .feedback-csm-details{grid-template-columns:1fr}.requester-workspace .feedback-csm-details label:last-child{grid-column:auto}.requester-workspace .completion-prompt{padding:28px 20px}}
 .requester-workspace .icon-button{border-color:#e2dac8;background:#fffefa;color:#8b6828}
 .requester-workspace .icon-button:hover{border-color:#c8a352;background:#f8f1df;color:#674914}

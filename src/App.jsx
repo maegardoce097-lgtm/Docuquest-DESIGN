@@ -1234,6 +1234,7 @@ function isCompletedNotification(notification) {
             {feedbackError && <p className="form-error" role="alert">{feedbackError}</p>}
             <button className="primary-button" disabled={busy}>{busy ? 'Isinusumite…' : 'Ipadala ang feedback'}<ArrowRight size={16} /></button>
           </form>}
+          <p className="feedback-source-note">Adapted from the ARTA Harmonized Client Satisfaction Measurement Questionnaire (ARTA MC 2022-05, as amended by MC 2023-05).</p>
         </section>}
         <section className="payment-panel">
           <header className="payment-panel-header"><CreditCard size={18} /><h3>Request payment</h3></header>
