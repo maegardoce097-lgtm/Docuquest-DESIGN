@@ -16,13 +16,29 @@ import './payment.css';
 const naujanSeal = '/assets/naujan_seal_3d_bg_web.webp';
 const emptyRequest = { full_name: '', phone: '', address: '', sitio: '', document_type: 'Application for Marriage License', purpose: '' };
 const feedbackQuestions = [
-  { key: 'staff_service_rating', label: 'How easy was it to submit your document request using the DocuQuest system?', tagalog: 'Gaano kadali magsumite ng document request gamit ang DocuQuest system?' },
-  { key: 'instructions_clarity_rating', label: 'How clear was the information about requirements and fees for this transaction?', tagalog: 'Gaano kalinaw ang impormasyon tungkol sa requirements at bayarin para sa transaksyong ito?' },
-  { key: 'status_updates_rating', label: 'How useful and timely were the system notifications and request status updates?', tagalog: 'Gaano kapaki-pakinabang at kaagap ang mga notification at update sa status ng request?' },
-  { key: 'processing_time_rating', label: 'How smooth was the payment process, or fee-waiver handling if no payment was due?', tagalog: 'Gaano kadali ang proseso ng pagbabayad, o pag-asikaso ng libreng request kung walang bayarin?' },
-  { key: 'overall_satisfaction_rating', label: 'How satisfied are you with the overall completion of this document transaction through DocuQuest?', tagalog: 'Gaano ka nasiyahan sa kabuuang pagkumpleto ng transaksyon ng dokumentong ito sa DocuQuest?' },
+  { key: 'sqd0', label: 'Nasiyahan ako sa serbisyong aking natanggap.' },
+  { key: 'sqd1', label: 'Makatwiran ang tagal ng pagproseso ng aking transaksyon.' },
+  { key: 'sqd2', label: 'Sinunod ng tanggapan ang mga kinakailangan at hakbang na ipinaalam para sa transaksyon.' },
+  { key: 'sqd3', label: 'Madali at simple ang mga hakbang, kabilang ang pagbabayad, na kailangan kong gawin.' },
+  { key: 'sqd4', label: 'Madali kong nahanap sa tanggapan o website nito ang impormasyon tungkol sa transaksyon.' },
+  { key: 'sqd5', label: 'Makatwiran ang mga bayaring binayaran ko. (Kung libre ang serbisyo, piliin ang Hindi naaangkop.)' },
+  { key: 'sqd6', label: 'Naging patas ang tanggapan sa lahat at walang palakasan sa pagproseso ng transaksyon.' },
+  { key: 'sqd7', label: 'Magalang akong pinakitunguhan at nakatanggap ako ng tulong mula sa kawani.' },
+  { key: 'sqd8', label: 'Nakuha ko ang kailangan ko, o sapat na ipinaliwanag ang pagtanggi sa aking kahilingan.' },
 ];
-const emptyFeedbackRatings = Object.fromEntries(feedbackQuestions.map(({ key }) => [key, 0]));
+const feedbackRatingOptions = [
+  { value: 1, label: 'Lubos na hindi sumasang-ayon' },
+  { value: 2, label: 'Hindi sumasang-ayon' },
+  { value: 3, label: 'Hindi sumasang-ayon o sumasang-ayon' },
+  { value: 4, label: 'Sumasang-ayon' },
+  { value: 5, label: 'Lubos na sumasang-ayon' },
+  { value: 0, label: 'Hindi naaangkop' },
+];
+const emptyFeedbackSurvey = {
+  client_type: 'citizen', sex: '', age: '', region: '', cc1: '', cc2: '', cc3: '',
+  ...Object.fromEntries(feedbackQuestions.map(({ key }) => [key, ''])),
+  email: '', suggestions: '',
+};
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
 initializeRecaptcha().catch(() => {});
@@ -158,8 +174,7 @@ export default function App() {
   const [statusForm, setStatusForm] = useState({ status: '', note: '', requirements: '', release_at: '' });
   const [feeAmount, setFeeAmount] = useState('');
   const [paymentOption, setPaymentOption] = useState('amount');
-  const [feedbackRatings, setFeedbackRatings] = useState(emptyFeedbackRatings);
-  const [feedbackComment, setFeedbackComment] = useState('');
+  const [feedbackSurvey, setFeedbackSurvey] = useState(emptyFeedbackSurvey);
   const [feedbackError, setFeedbackError] = useState('');
   const [notifications, setNotifications] = useState([]);
   const [messageTarget, setMessageTarget] = useState({ id: '', revision: 0 });
@@ -420,8 +435,13 @@ export default function App() {
     try {
       const detail = await apiRequest(`/requests/show?id=${encodeURIComponent(request.id)}`);
       setActiveRequest(detail);
-      setFeedbackRatings(Object.fromEntries(feedbackQuestions.map(({ key }) => [key, Number(detail.feedback?.[key] || 0)])));
-      setFeedbackComment(detail.feedback?.comment || '');
+      const savedSurvey = detail.feedback?.survey || {};
+      setFeedbackSurvey({
+        ...emptyFeedbackSurvey,
+        ...savedSurvey,
+        email: savedSurvey.email || user?.email || '',
+        suggestions: savedSurvey.suggestions || detail.feedback?.comment || '',
+      });
       setFeedbackError('');
       setStatusForm({
         status: detail.request.status,
@@ -454,8 +474,12 @@ export default function App() {
 
   async function submitFeedback(event) {
     event.preventDefault();
-    if (!activeRequest || feedbackQuestions.some(({ key }) => feedbackRatings[key] < 1 || feedbackRatings[key] > 5)) {
-      setFeedbackError('Sagutan ang lahat ng limang tanong gamit ang rating na 1 hanggang 5.');
+    const charterNotApplicable = feedbackSurvey.cc1 === '4';
+    if (!activeRequest
+      || !feedbackSurvey.cc1
+      || (!charterNotApplicable && (!feedbackSurvey.cc2 || !feedbackSurvey.cc3))
+      || feedbackQuestions.some(({ key }) => feedbackSurvey[key] === '' || !Number.isInteger(Number(feedbackSurvey[key])))) {
+      setFeedbackError('Sagutan ang mga tanong tungkol sa Citizen’s Charter at lahat ng SQD.');
       return;
     }
     setBusy(true);
@@ -463,11 +487,19 @@ export default function App() {
     try {
       const result = await postJson('/requests/feedback', {
         request_id: activeRequest.request.id,
-        ratings: feedbackRatings,
-        comment: feedbackComment,
+        survey: {
+          ...feedbackSurvey,
+          age: feedbackSurvey.age ? Number(feedbackSurvey.age) : null,
+          cc1: Number(feedbackSurvey.cc1),
+          cc2: charterNotApplicable ? null : Number(feedbackSurvey.cc2),
+          cc3: charterNotApplicable ? null : Number(feedbackSurvey.cc3),
+          ...Object.fromEntries(feedbackQuestions.map(({ key }) => [key, Number(feedbackSurvey[key])])),
+        },
       });
       setActiveRequest((current) => current ? { ...current, feedback: result.feedback } : current);
-      showConfirmation('Salamat sa pagbibigay ng feedback sa DocuQuest.');
+      showConfirmation(result.email_sent
+        ? 'Na-save ang iyong feedback at naipadala ito sa mga administrator.'
+        : 'Na-save ang iyong feedback. Makikita ito sa Admin Feedback, ngunit hindi naipadala ang email.', result.email_sent ? 'success' : 'warning');
     } catch (cause) {
       setFeedbackError(cause.message);
     } finally {
@@ -1089,21 +1121,45 @@ export default function App() {
           })}</div>
         </section>}
         {user.role === 'user' && activeRequest.request.status === 'completed' && <section className="request-feedback-panel">
-          <div><p className="eyebrow">YOUR DOCUQUEST EXPERIENCE</p><h3>Kamusta ang proseso ng request mo?</h3><p>Sagutin ang limang tanong. Ang 1 ang pinakamababa at 5 ang pinakamataas na rating.</p></div>
+          <div><p className="eyebrow">CLIENT SATISFACTION MEASUREMENT</p><h3>Tulungan kaming pagbutihin ang serbisyo</h3><p>Kompidensiyal ang impormasyong ibabahagi mo. Opsyonal ang mga personal na detalye at maaari mong piliing hindi sagutan ang form.</p></div>
           {activeRequest.feedback ? <div className="feedback-thanks" role="status">
-            <div className="feedback-answer-list">{feedbackQuestions.map(({ key, label }) => <div key={key}><span>{label}</span><strong>{activeRequest.feedback[key] ? `${activeRequest.feedback[key]} / 5` : 'Detailed rating unavailable'}</strong></div>)}</div>
+            <div className="feedback-answer-list">
+              <div><span>Uri ng kliyente</span><strong>{activeRequest.feedback.survey?.client_type || 'Hindi nakatala'}</strong></div>
+              <div><span>Citizen’s Charter</span><strong>{activeRequest.feedback.survey?.cc1 ? `Sagot ${activeRequest.feedback.survey.cc1}` : 'Hindi nakatala'}</strong></div>
+              {feedbackQuestions.map(({ key, label }) => <div key={key}><span>{label}</span><strong>{Number(activeRequest.feedback.survey?.[key]) === 0 ? 'Hindi naaangkop' : activeRequest.feedback.survey?.[key] ? `${activeRequest.feedback.survey[key]} / 5` : 'Hindi nakatala'}</strong></div>)}
+            </div>
             <strong>Salamat sa iyong feedback!</strong>
-            {activeRequest.feedback.comment && <p>{activeRequest.feedback.comment}</p>}
+            {(activeRequest.feedback.survey?.suggestions || activeRequest.feedback.comment) && <p>{activeRequest.feedback.survey?.suggestions || activeRequest.feedback.comment}</p>}
           </div> : <form onSubmit={submitFeedback}>
-            {feedbackQuestions.map(({ key, label, tagalog }) => <fieldset className="feedback-question" key={key}><legend>{label}<small>{tagalog}</small></legend><div className="request-feedback-stars" role="group" aria-label={`${label} Rating`}>
-              {[1, 2, 3, 4, 5].map((rating) => <button key={rating} type="button" aria-label={`${rating} out of 5`} aria-pressed={feedbackRatings[key] === rating} onClick={() => setFeedbackRatings((current) => ({ ...current, [key]: rating }))}>
-                <Star size={23} fill={rating <= feedbackRatings[key] ? 'currentColor' : 'none'} />
-              </button>)}
-              <span>{feedbackRatings[key] ? `${feedbackRatings[key]} / 5` : 'Required'}</span>
-            </div></fieldset>)}
-            <label>Komento (opsyonal)<textarea rows="3" maxLength={1000} value={feedbackComment} onChange={(event) => setFeedbackComment(event.target.value)} placeholder="Ibahagi ang naging karanasan mo sa proseso ng DocuQuest." /></label>
+            <div className="feedback-csm-details">
+              <label>Uri ng kliyente<select required value={feedbackSurvey.client_type} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, client_type: event.target.value }))}><option value="citizen">Mamamayan</option><option value="business">Negosyo</option><option value="government">Kawani o ahensiya ng pamahalaan</option></select></label>
+              <label>Kasarian (opsyonal)<select value={feedbackSurvey.sex} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, sex: event.target.value }))}><option value="">Mas gustong hindi sagutin</option><option value="male">Lalaki</option><option value="female">Babae</option></select></label>
+              <label>Edad (opsyonal)<input type="number" min="1" max="120" value={feedbackSurvey.age} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, age: event.target.value }))} /></label>
+              <label>Rehiyon ng tirahan (opsyonal)<input maxLength="120" value={feedbackSurvey.region} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, region: event.target.value }))} /></label>
+              <label>Serbisyong ginamit<input readOnly value={activeRequest.request.document_type || ''} /></label>
+            </div>
+            <fieldset className="feedback-question"><legend>Citizen’s Charter (CC)</legend>
+              <div className="feedback-charter-question"><strong>CC1. Alin ang naglalarawan sa iyong kaalaman tungkol sa Citizen’s Charter ng tanggapang ito?</strong>
+                {[['1', 'Alam ko kung ano ang Citizen’s Charter at nakita ko ang charter ng tanggapang ito.'], ['2', 'Alam ko kung ano ito pero hindi ko nakita ang charter ng tanggapang ito.'], ['3', 'Nalaman ko lamang ang tungkol dito nang makita ko ang charter ng tanggapang ito.'], ['4', 'Hindi ko alam kung ano ito at wala akong nakitang charter sa tanggapang ito.']].map(([value, label]) => <label className="feedback-choice" key={value}><input type="radio" name="feedback-cc1" value={value} required checked={feedbackSurvey.cc1 === value} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, cc1: event.target.value }))} /><span>{label}</span></label>)}
+              </div>
+              {feedbackSurvey.cc1 === '4' ? <p className="feedback-not-applicable">Hindi naaangkop ang CC2 at CC3 batay sa iyong sagot sa CC1.</p> : <>
+                <div className="feedback-charter-question"><strong>CC2. Kung pamilyar ka sa Citizen’s Charter, gaano kadaling makita ang charter ng tanggapang ito?</strong>
+                  {[['1', 'Madaling makita'], ['2', 'Medyo madaling makita'], ['3', 'Mahirap makita'], ['4', 'Hindi talaga makita'], ['5', 'Hindi naaangkop']].map(([value, label]) => <label className="feedback-choice" key={value}><input type="radio" name="feedback-cc2" value={value} required checked={feedbackSurvey.cc2 === value} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, cc2: event.target.value }))} /><span>{label}</span></label>)}
+                </div>
+                <div className="feedback-charter-question"><strong>CC3. Gaano nakatulong sa iyong transaksyon ang Citizen’s Charter?</strong>
+                  {[['1', 'Malaki ang naitulong'], ['2', 'May naitulong'], ['3', 'Hindi nakatulong'], ['4', 'Hindi naaangkop']].map(([value, label]) => <label className="feedback-choice" key={value}><input type="radio" name="feedback-cc3" value={value} required checked={feedbackSurvey.cc3 === value} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, cc3: event.target.value }))} /><span>{label}</span></label>)}
+                </div>
+              </>}
+            </fieldset>
+            <fieldset className="feedback-question"><legend>Kalidad ng Serbisyo (SQD)</legend><p className="feedback-sqd-instructions">Piliin ang sagot na pinakaangkop sa iyong karanasan. Piliin ang “Hindi naaangkop” kung hindi ito angkop sa iyong transaksyon.</p>
+              {feedbackQuestions.map(({ key, label }, index) => <div className="feedback-sqd-question" key={key}><strong>SQD{index}. {label}</strong><div className="feedback-sqd-options">
+                {feedbackRatingOptions.map(({ value, label: optionLabel }) => <label className="feedback-choice" key={value}><input type="radio" name={`feedback-${key}`} value={value} required checked={String(feedbackSurvey[key]) === String(value)} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, [key]: event.target.value }))} /><span>{optionLabel}</span></label>)}
+              </div></div>)}
+            </fieldset>
+            <label>Mga mungkahi para mapabuti ang serbisyo (opsyonal)<textarea rows="3" maxLength={1000} value={feedbackSurvey.suggestions} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, suggestions: event.target.value }))} /></label>
+            <label>Email address (opsyonal)<input type="email" maxLength="255" value={feedbackSurvey.email} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, email: event.target.value }))} /></label>
             {feedbackError && <p className="form-error" role="alert">{feedbackError}</p>}
-            <button className="primary-button" disabled={busy || feedbackQuestions.some(({ key }) => feedbackRatings[key] === 0)}>{busy ? 'Isinusumite…' : 'Ipadala ang feedback'}<ArrowRight size={16} /></button>
+            <button className="primary-button" disabled={busy}>{busy ? 'Isinusumite…' : 'Ipadala ang feedback'}<ArrowRight size={16} /></button>
           </form>}
         </section>}
         <section className="payment-panel">
