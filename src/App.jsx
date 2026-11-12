@@ -377,11 +377,6 @@ function isCompletedNotification(notification) {
     };
   }, [user?.id, page, notificationsOpen, activeRequest?.request?.id]);
 
-  async function submitAuth(event) {
-    event.preventDefault();
-    setBusy(true);
-    setError('');
-    try {
   useEffect(() => {
     if (!user || user.role !== 'user') return undefined;
     let active = true;
@@ -425,6 +420,11 @@ function isCompletedNotification(notification) {
     };
   }, [user?.id, user?.role]);
 
+  async function submitAuth(event) {
+    event.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
       const endpoint = mode === 'register' ? '/create' : '/login';
       const payload = mode === 'login'
         ? { ...form, recaptcha_token: await getRecaptchaToken('login') }
