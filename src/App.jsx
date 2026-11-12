@@ -137,6 +137,10 @@ function notificationBodyItems(body) {
 
 export default function App() {
   const initialPath = window.location.pathname;
+function isCompletedNotification(notification) {
+  return /\bis now completed\b/i.test(String(notification?.body || ''));
+}
+
   const normalizedPath = initialPath.replace(/\/+$/, '') || '/';
   const normalizedBase = APP_BASE_URL.replace(/\/+$/, '') || '/';
   const loginPath = normalizedPath === appUrl('login').replace(/\/+$/, '');
@@ -172,6 +176,7 @@ export default function App() {
   const [activeRequest, setActiveRequest] = useState(null);
   const [messageBody, setMessageBody] = useState('');
   const [statusForm, setStatusForm] = useState({ status: '', note: '', requirements: '', release_at: '' });
+  const [completionPrompt, setCompletionPrompt] = useState(null);
   const [feeAmount, setFeeAmount] = useState('');
   const [paymentOption, setPaymentOption] = useState('amount');
   const [feedbackSurvey, setFeedbackSurvey] = useState(emptyFeedbackSurvey);
@@ -188,8 +193,11 @@ export default function App() {
   const paymentReturnHandled = useRef(false);
   const adminPath = normalizedPath === appUrl('admin').replace(/\/+$/, '') || normalizedPath.startsWith(`${appUrl('admin').replace(/\/+$/, '')}/`);
 
-  function showConfirmation(message, type = 'success') {
-    setConfirmation({ message, type, createdAt: Date.now() });
+  const feedbackPanelRef = useRef(null);
+  const seenNotificationIds = useRef(new Set());
+  const notificationBaselineLoaded = useRef(false);
+  function showConfirmation(message, type = 'success', title = '') {
+    setConfirmation({ message, type, title, createdAt: Date.now() });
   }
 
   useEffect(() => {
@@ -374,6 +382,49 @@ export default function App() {
     setBusy(true);
     setError('');
     try {
+  useEffect(() => {
+    if (!user || user.role !== 'user') return undefined;
+    let active = true;
+    let polling = false;
+    notificationBaselineLoaded.current = false;
+    seenNotificationIds.current = new Set();
+
+    async function checkForCompletedNotifications() {
+      if (polling || document.hidden) return;
+      polling = true;
+      try {
+        const result = await apiRequest('/notifications');
+        if (!active) return;
+        const latest = result.notifications || [];
+        setNotifications(latest);
+        setUnreadCount(Number(result.unread_count || 0));
+        if (!notificationBaselineLoaded.current) {
+          seenNotificationIds.current = new Set(latest.map((item) => Number(item.id)));
+          notificationBaselineLoaded.current = true;
+          return;
+        }
+
+        const newlyReceived = latest.filter((item) => !seenNotificationIds.current.has(Number(item.id)));
+        latest.forEach((item) => seenNotificationIds.current.add(Number(item.id)));
+        const completionNotification = newlyReceived.find(isCompletedNotification);
+        if (completionNotification) {
+          setCompletionPrompt((current) => current || { notification: completionNotification });
+        }
+      } catch {
+        // The existing notification panel reports errors when the user opens it.
+      } finally {
+        polling = false;
+      }
+    }
+
+    checkForCompletedNotifications();
+    const interval = window.setInterval(checkForCompletedNotifications, 30000);
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, [user?.id, user?.role]);
+
       const endpoint = mode === 'register' ? '/create' : '/login';
       const payload = mode === 'login'
         ? { ...form, recaptcha_token: await getRecaptchaToken('login') }
@@ -457,8 +508,10 @@ export default function App() {
     }
   }
 
+      return detail;
   async function submitMessage(event) {
     event.preventDefault();
+      return null;
     if (!activeRequest) return;
     setBusy(true);
     try {
@@ -498,8 +551,8 @@ export default function App() {
       });
       setActiveRequest((current) => current ? { ...current, feedback: result.feedback } : current);
       showConfirmation(result.email_sent
-        ? 'Na-save ang iyong feedback at naipadala ito sa mga administrator.'
-        : 'Na-save ang iyong feedback. Makikita ito sa Admin Feedback, ngunit hindi naipadala ang email.', result.email_sent ? 'success' : 'warning');
+        ? 'Naipadala ang feedback. Maraming salamat sa iyong tugon!'
+        : 'Nai-save ang feedback at makikita ito sa Admin Feedback, ngunit hindi naipadala ang email.', result.email_sent ? 'success' : 'warning', result.email_sent ? 'Feedback sent' : 'Feedback saved');
     } catch (cause) {
       setFeedbackError(cause.message);
     } finally {
@@ -719,6 +772,12 @@ export default function App() {
     }
     setNotificationsOpen(false);
     setActiveRequest(null);
+    if (isCompletedNotification(notification)) {
+      setCompletionPrompt({ notification });
+      setNotificationsOpen(false);
+      return;
+    }
+
     if (notification.title?.toLowerCase().startsWith('new message')) {
       setMessageTarget((current) => ({ id: String(requestId), revision: current.revision + 1 }));
       setPage('messages');
@@ -737,6 +796,23 @@ export default function App() {
     setPage(nextPage);
     setActiveRequest(null);
     const nextUrl = howToUsePath
+  async function openFeedbackFromCompletion() {
+    const notification = completionPrompt?.notification;
+    const requestId = Number(notification?.request_id);
+    if (!Number.isInteger(requestId) || requestId < 1) return;
+
+    const detail = await openRequest({ id: requestId });
+    if (!detail) return;
+    setCompletionPrompt(null);
+    if (Number(notification.is_read) !== 1) {
+      updateNotificationReadState(notification, true);
+    }
+    window.requestAnimationFrame(() => {
+      feedbackPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      feedbackPanelRef.current?.querySelector('form select')?.focus({ preventScroll: true });
+    });
+  }
+
       ? `${appUrl('dashboard')}#${nextPage}`
       : `#${nextPage}`;
     window.history.replaceState(null, '', nextUrl);
@@ -1120,7 +1196,7 @@ export default function App() {
             </article>;
           })}</div>
         </section>}
-        {user.role === 'user' && activeRequest.request.status === 'completed' && <section className="request-feedback-panel">
+        {user.role === 'user' && activeRequest.request.status === 'completed' && <section className="request-feedback-panel" ref={feedbackPanelRef}>
           <div><p className="eyebrow">CLIENT SATISFACTION MEASUREMENT</p><h3>Tulungan kaming pagbutihin ang serbisyo</h3><p>Kompidensiyal ang impormasyong ibabahagi mo. Opsyonal ang mga personal na detalye at maaari mong piliing hindi sagutan ang form.</p></div>
           {activeRequest.feedback ? <div className="feedback-thanks" role="status">
             <div className="feedback-answer-list">
@@ -1152,9 +1228,7 @@ export default function App() {
               </>}
             </fieldset>
             <fieldset className="feedback-question"><legend>Kalidad ng Serbisyo (SQD)</legend><p className="feedback-sqd-instructions">Piliin ang sagot na pinakaangkop sa iyong karanasan. Piliin ang “Hindi naaangkop” kung hindi ito angkop sa iyong transaksyon.</p>
-              {feedbackQuestions.map(({ key, label }, index) => <div className="feedback-sqd-question" key={key}><strong>SQD{index}. {label}</strong><div className="feedback-sqd-options">
-                {feedbackRatingOptions.map(({ value, label: optionLabel }) => <label className="feedback-choice" key={value}><input type="radio" name={`feedback-${key}`} value={value} required checked={String(feedbackSurvey[key]) === String(value)} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, [key]: event.target.value }))} /><span>{optionLabel}</span></label>)}
-              </div></div>)}
+              {feedbackQuestions.map(({ key, label }, index) => <label className="feedback-sqd-question" key={key}><strong>SQD{index}. {label}</strong><select required aria-label={`SQD${index}: ${label}`} value={feedbackSurvey[key]} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, [key]: event.target.value }))}><option value="" disabled>Pumili ng sagot</option>{feedbackRatingOptions.map(({ value, label: optionLabel }) => <option key={value} value={value}>{optionLabel}</option>)}</select></label>)}
             </fieldset>
             <label>Mga mungkahi para mapabuti ang serbisyo (opsyonal)<textarea rows="3" maxLength={1000} value={feedbackSurvey.suggestions} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, suggestions: event.target.value }))} /></label>
             <label>Email address (opsyonal)<input type="email" maxLength="255" value={feedbackSurvey.email} onChange={(event) => setFeedbackSurvey((current) => ({ ...current, email: event.target.value }))} /></label>
@@ -1180,9 +1254,19 @@ export default function App() {
         role={confirmation.type === 'error' ? 'alert' : 'status'}
         aria-live={confirmation.type === 'error' ? 'assertive' : 'polite'}
         style={{ '--confirmation-image': `url("${homepageImageUrl('hero_background', confirmation.createdAt)}")` }}
+      {completionPrompt && <div className="completion-prompt-scrim" onMouseDown={(event) => { if (event.target === event.currentTarget) setCompletionPrompt(null); }}>
+        <section className="completion-prompt" role="dialog" aria-modal="true" aria-labelledby="completion-prompt-title">
+          <button type="button" className="icon-button completion-prompt-close" aria-label="Isara ang abiso" onClick={() => setCompletionPrompt(null)}><X size={17} /></button>
+          <span className="completion-prompt-mark"><BadgeCheck size={24} /></span>
+          <p className="eyebrow">NAKUMPLETO NA ANG TRANSAKSYON</p>
+          <h2 id="completion-prompt-title">Tapos na ang iyong request!</h2>
+          <p>{completionPrompt.notification.request_number || 'Ang iyong dokumento'} ay kumpleto na. Maaari mo nang sagutan ang Client Satisfaction Measurement survey para maibahagi ang iyong karanasan.</p>
+          <button className="primary-button" type="button" onClick={openFeedbackFromCompletion}>Sagutan ang survey<ArrowRight size={16} /></button>
+        </section>
+      </div>}
       >
         <span className="transaction-toast-mark"><BadgeCheck size={19} /></span>
-        <span className="transaction-toast-copy"><strong>{confirmation.type === 'success' ? 'Transaction sent' : confirmation.type === 'warning' ? 'Action needed' : 'Transaction not completed'}</strong><span>{confirmation.message}</span></span>
+        <span className="transaction-toast-copy"><strong>{confirmation.title || (confirmation.type === 'success' ? 'Transaction sent' : confirmation.type === 'warning' ? 'Action needed' : 'Transaction not completed')}</strong><span>{confirmation.message}</span></span>
         <button type="button" className="transaction-toast-close" aria-label="Dismiss notification" onClick={() => setConfirmation(null)}><X size={17} /></button>
       </section>}
     </main>
