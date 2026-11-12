@@ -1,6 +1,7 @@
 .mobile-logout-button,
 .mobile-menu-button,
-.mobile-navigation-menu {
+.mobile-navigation-menu,
+.mobile-profile-avatar {
   display: none;
 }
 
@@ -848,6 +849,18 @@
     padding-right: 0;
   }
 
+  .workspace.requester-workspace .topbar-greeting-row {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .workspace.requester-workspace .topbar-greeting-row h1 {
+    min-width: 0;
+    flex: 1;
+  }
+
   .workspace.requester-workspace .content-grid.requester-new-request-grid {
     padding-top: 40px;
   }
@@ -880,6 +893,31 @@
   .workspace .top-actions::before {
     display: block !important;
     content: '' !important;
+  }
+
+  .workspace.requester-workspace .page-footer {
+    position: fixed;
+    z-index: 75;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 48px;
+    margin: 0;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, .35);
+  }
+
+  .workspace.requester-workspace > .main-panel {
+    padding-bottom: calc(48px + env(safe-area-inset-bottom));
+  }
+
+  .workspace.requester-workspace .conversation-compose {
+    margin-bottom: 22px;
+  }
+
+  .workspace.requester-workspace .conversation-compose textarea {
+    min-height: 88px;
   }
 
   .workspace .sidebar {

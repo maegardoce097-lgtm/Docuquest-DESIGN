@@ -918,9 +918,11 @@ function isCompletedNotification(notification) {
           <div className="topbar-heading">
             <div className="topbar-heading-copy">
               <p className="eyebrow">{page === 'archive' ? 'ADMINISTRATION / RECORDS' : page === 'files' ? 'ADMINISTRATION / PRIVATE STORAGE' : page === 'feedback' ? 'ADMINISTRATION / REQUESTER EXPERIENCE' : page === 'messages' ? 'SECURE COMMUNICATION' : page === 'settings' ? 'ACCOUNT MANAGEMENT' : page === 'new-request' ? 'REQUEST PORTAL / NEW REQUEST' : page === 'guide' ? 'DOCUQUEST / USER GUIDE' : user.role === 'admin' ? 'ADMINISTRATION' : 'REQUEST PORTAL'}</p>
-              <h1 key={page}>{page === 'archive' ? 'Previous requests' : page === 'files' ? 'Submitted files' : page === 'feedback' ? 'DocuQuest feedback' : page === 'messages' ? 'Messages' : page === 'settings' ? 'Account settings' : page === 'new-request' ? 'Request a document' : page === 'guide' ? 'How to use DocuQuest' : `Good day, ${user.username?.split(' ')[0]}`}</h1>
+              <div className="topbar-greeting-row">
+                {user.role !== 'admin' && <span className="mobile-profile-avatar" aria-hidden="true">{user.username?.slice(0, 1).toUpperCase()}</span>}
+                <h1 key={page}>{page === 'archive' ? 'Previous requests' : page === 'files' ? 'Submitted files' : page === 'feedback' ? 'DocuQuest feedback' : page === 'messages' ? 'Messages' : page === 'settings' ? 'Account settings' : page === 'new-request' ? 'Request a document' : page === 'guide' ? 'How to use DocuQuest' : `Good day, ${user.username?.split(' ')[0]}`}</h1>
+              </div>
             </div>
-            {user.role !== 'admin' && <span className="mobile-profile-avatar" aria-hidden="true">{user.username?.slice(0, 1).toUpperCase()}</span>}
           </div>
           <div className="top-actions">
             <WorkspaceClockWeather />
