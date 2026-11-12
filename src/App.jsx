@@ -796,6 +796,11 @@ function isCompletedNotification(notification) {
     setPage(nextPage);
     setActiveRequest(null);
     const nextUrl = howToUsePath
+      ? `${appUrl('dashboard')}#${nextPage}`
+      : `#${nextPage}`;
+    window.history.replaceState(null, '', nextUrl);
+  }
+
   async function openFeedbackFromCompletion() {
     const notification = completionPrompt?.notification;
     const requestId = Number(notification?.request_id);
@@ -811,11 +816,6 @@ function isCompletedNotification(notification) {
       feedbackPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       feedbackPanelRef.current?.querySelector('form select')?.focus({ preventScroll: true });
     });
-  }
-
-      ? `${appUrl('dashboard')}#${nextPage}`
-      : `#${nextPage}`;
-    window.history.replaceState(null, '', nextUrl);
   }
 
   function startDocumentRequest(documentType) {
@@ -1249,11 +1249,6 @@ function isCompletedNotification(notification) {
         <div className="timeline"><p className="eyebrow">ACTIVITY</p>{(activeRequest.updates || []).map((update) => <div className="timeline-item" key={update.id}><span className="timeline-dot" /><div><strong>{update.status?.replaceAll('_', ' ')}</strong><p>{update.note}</p>{update.requirements && <p><strong>Requirements:</strong> {update.requirements}</p>}{update.release_at_label && <small>Release: {update.release_at_label} · Philippine time</small>}<small>{update.actor_name} · {update.created_at}</small></div></div>)}</div>
         <div className="message-section"><p className="eyebrow">CONVERSATION</p><div className="message-list">{(activeRequest.messages || []).map((message) => <div className={`message-bubble ${Number(message.sender_id) === Number(user.id) ? 'mine' : ''}`} key={message.id}><strong>{message.sender_name}</strong><p>{message.body}</p><small>{message.created_at}</small></div>)}</div><form className="message-form" onSubmit={submitMessage}><input aria-label="Write a message" placeholder="Write a message…" value={messageBody} maxLength="2000" onChange={(event) => setMessageBody(event.target.value)} required /><button className="icon-button" title="Send message" aria-label="Send message" disabled={busy}><Send size={17} /></button></form></div>
       </div></section></div>}
-      {confirmation && <section
-        className={`transaction-toast transaction-toast-${confirmation.type}`}
-        role={confirmation.type === 'error' ? 'alert' : 'status'}
-        aria-live={confirmation.type === 'error' ? 'assertive' : 'polite'}
-        style={{ '--confirmation-image': `url("${homepageImageUrl('hero_background', confirmation.createdAt)}")` }}
       {completionPrompt && <div className="completion-prompt-scrim" onMouseDown={(event) => { if (event.target === event.currentTarget) setCompletionPrompt(null); }}>
         <section className="completion-prompt" role="dialog" aria-modal="true" aria-labelledby="completion-prompt-title">
           <button type="button" className="icon-button completion-prompt-close" aria-label="Isara ang abiso" onClick={() => setCompletionPrompt(null)}><X size={17} /></button>
@@ -1264,6 +1259,11 @@ function isCompletedNotification(notification) {
           <button className="primary-button" type="button" onClick={openFeedbackFromCompletion}>Sagutan ang survey<ArrowRight size={16} /></button>
         </section>
       </div>}
+      {confirmation && <section
+        className={`transaction-toast transaction-toast-${confirmation.type}`}
+        role={confirmation.type === 'error' ? 'alert' : 'status'}
+        aria-live={confirmation.type === 'error' ? 'assertive' : 'polite'}
+        style={{ '--confirmation-image': `url("${homepageImageUrl('hero_background', confirmation.createdAt)}")` }}
       >
         <span className="transaction-toast-mark"><BadgeCheck size={19} /></span>
         <span className="transaction-toast-copy"><strong>{confirmation.title || (confirmation.type === 'success' ? 'Transaction sent' : confirmation.type === 'warning' ? 'Action needed' : 'Transaction not completed')}</strong><span>{confirmation.message}</span></span>
