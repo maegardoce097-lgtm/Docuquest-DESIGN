@@ -851,6 +851,7 @@
   .workspace.requester-workspace .topbar > div:first-child {
     min-height: 50px;
     padding-right: 0;
+    padding-left: 0;
   }
 
   .workspace.requester-workspace .topbar-greeting-row {
@@ -863,7 +864,6 @@
   .workspace.requester-workspace .topbar-greeting-row h1 {
     min-width: 0;
     flex: 1;
-    text-align: left;
   }
 
   .workspace.requester-workspace .content-grid.requester-new-request-grid {
