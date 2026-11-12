@@ -604,6 +604,226 @@
   }
 
   .workspace .stat-row {
+
+@media (max-width: 740px) {
+  .workspace {
+    padding-bottom: 12px;
+  }
+
+  .workspace .sidebar {
+    top: 0;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    height: calc(58px + env(safe-area-inset-top));
+    padding: max(5px, env(safe-area-inset-top)) 8px 5px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-top: 0;
+    border-bottom: 1px solid rgba(201, 157, 69, .55);
+    background: linear-gradient(180deg, #082f24 0%, #09291f 100%);
+    scrollbar-width: none;
+  }
+
+  .workspace .sidebar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .workspace .sidebar .brand {
+    width: 96px;
+    min-width: 96px;
+    height: 42px;
+    flex: 0 0 96px;
+    margin: 0 5px 0 0;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 7px;
+    color: #fffefa;
+    font-size: 11px;
+    line-height: 1.1;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .workspace .sidebar .brand-mark {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    border: 1px solid #e8cc5a;
+    border-radius: 50%;
+    background: url('/assets/naujan_seal_3d_bg_web.webp') center / cover no-repeat;
+    color: transparent;
+    text-indent: -9999px;
+  }
+
+  .workspace .sidebar .side-link,
+  .workspace.requester-workspace .sidebar .side-link[href="#requests"],
+  .workspace.requester-workspace .sidebar .side-link[href="#new-request"],
+  .workspace.requester-workspace .sidebar .side-link[href="#messages"],
+  .workspace.requester-workspace .sidebar .side-link[href="#settings"],
+  .workspace.requester-workspace .sidebar .side-link[href="#guide"] {
+    position: relative;
+    display: grid !important;
+    flex: 0 0 36px;
+    width: 36px;
+    min-width: 36px;
+    height: 38px;
+    min-height: 38px;
+    margin: 0;
+    padding: 0;
+    place-items: center;
+    border: 1px solid rgba(216, 184, 91, .48);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, .035);
+    color: #f2d34c;
+    font-size: 0;
+    line-height: 0;
+    scroll-snap-align: center;
+  }
+
+  .workspace .sidebar .side-link.active {
+    border-color: #e0bd49;
+    background: linear-gradient(145deg, #f3dfa0, #d0a83b 68%, #a87b12);
+    color: #302516;
+  }
+
+  .workspace .sidebar .side-link > svg {
+    width: 18px;
+    height: 18px;
+    flex: none;
+  }
+
+  .workspace .sidebar .side-link > span {
+    top: -3px;
+    right: -3px;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 3px;
+    border: 1px solid #08291f;
+    border-radius: 8px;
+    background: #e8c63d;
+    color: #18382c;
+    font-size: 8px;
+    line-height: 1;
+  }
+
+  .workspace .topbar {
+    position: static;
+    top: auto;
+    margin-top: calc(58px + env(safe-area-inset-top));
+    padding: 8px 10px 10px;
+    gap: 7px;
+    overflow: visible;
+  }
+
+  .workspace .topbar > .topbar-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-width: 0;
+    min-height: 50px;
+    padding: 0;
+  }
+
+  .workspace .topbar > .topbar-heading::before {
+    display: none;
+    content: none;
+  }
+
+  .workspace .topbar-heading-copy {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .workspace.requester-workspace .topbar .eyebrow,
+  .workspace.admin-workspace .topbar .eyebrow {
+    display: block !important;
+    margin: 0 0 2px;
+    font-size: 8px;
+  }
+
+  .workspace.requester-workspace .topbar h1,
+  .workspace.admin-workspace .topbar h1 {
+    display: block !important;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-wrap: normal;
+    font-size: 17px;
+    line-height: 1.2;
+  }
+
+  .workspace .mobile-profile-avatar {
+    display: grid;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 2px solid #d5bd57;
+    border-radius: 50%;
+    background: #77847d;
+    box-shadow: 0 0 0 2px #08291f;
+    color: #fff;
+    font: 700 17px/1 Manrope, sans-serif;
+  }
+
+  .workspace .top-actions {
+    grid-template-columns: minmax(0, 1fr) 38px 38px 38px 44px;
+    grid-template-rows: 56px;
+    min-height: 56px;
+    gap: 5px;
+  }
+
+  .workspace .top-actions::before {
+    grid-column: 5;
+    grid-row: 1;
+    justify-self: center;
+    align-self: center;
+    width: 42px;
+    height: 42px;
+    border: 2px solid #e6cd63;
+    border-radius: 50%;
+    background: #e4c34d url('/assets/naujan_seal_3d_bg_web.webp') center / cover no-repeat;
+    box-shadow: 0 0 0 2px #08291f, 0 0 0 3px rgba(216, 178, 68, .68);
+  }
+
+  .workspace .top-actions > .icon-button:nth-of-type(1) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .workspace .top-actions > .notification-button {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .workspace .top-actions > .mobile-logout-button {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  .workspace .top-actions > .workspace-clock-weather {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 52px;
+    min-height: 52px;
+    margin: 0;
+    padding: 6px 8px;
+  }
+
+  .workspace .top-actions .mobile-navigation-menu {
+    display: none !important;
+  }
+
+  .workspace .topbar .notification-popover {
+    top: calc(58px + 8px + 50px + 7px + 56px + 8px) !important;
+    right: 10px !important;
+    left: auto !important;
+  }
+}
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
