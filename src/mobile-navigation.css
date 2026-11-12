@@ -25,10 +25,10 @@
     overflow-x: auto;
     overflow-y: hidden;
     border-top: 1px solid rgba(201, 157, 69, .45);
-    border-right: 0;
-    border-bottom: 0;
-    border-radius: 0;
-    box-shadow: 0 -8px 24px rgba(25, 48, 38, .12);
+      border-color: #e0bd49;
+      background: linear-gradient(145deg, #f3dfa0, #d0a83b 68%, #a87b12);
+      box-shadow: none;
+      color: #302516;
     display: flex;
     flex-wrap: nowrap;
     align-items: stretch;
@@ -658,14 +658,9 @@
     text-indent: -9999px;
   }
 
-  .workspace .sidebar .side-link,
-  .workspace.requester-workspace .sidebar .side-link[href="#requests"],
-  .workspace.requester-workspace .sidebar .side-link[href="#new-request"],
-  .workspace.requester-workspace .sidebar .side-link[href="#messages"],
-  .workspace.requester-workspace .sidebar .side-link[href="#settings"],
-  .workspace.requester-workspace .sidebar .side-link[href="#guide"] {
+  .workspace .sidebar .side-link {
     position: relative;
-    display: grid !important;
+    display: flex !important;
     flex: 0 0 36px;
     width: 36px;
     min-width: 36px;
@@ -673,7 +668,8 @@
     min-height: 38px;
     margin: 0;
     padding: 0;
-    place-items: center;
+    align-items: center;
+    justify-content: center;
     border: 1px solid rgba(216, 184, 91, .48);
     border-radius: 5px;
     background: rgba(255, 255, 255, .035);
@@ -846,11 +842,6 @@
   .workspace.requester-workspace .topbar > div:first-child {
     min-height: 50px;
     padding-right: 0;
-  }
-
-  .workspace.requester-workspace .topbar > div:first-child .eyebrow,
-  .workspace.requester-workspace .topbar > div:first-child h1 {
-    display: none;
   }
 
   .workspace.requester-workspace .content-grid.requester-new-request-grid {
