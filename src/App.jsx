@@ -503,15 +503,14 @@ function isCompletedNotification(notification) {
       setMessageBody('');
       setFeeAmount(detail.payment?.amount ?? '');
       setPaymentOption(detail.payment && (detail.payment.status === 'waived' || Number(detail.payment.amount) === 0) ? 'free' : 'amount');
+      return detail;
     } catch (cause) {
       setError(cause.message);
+      return null;
     }
   }
-
-      return detail;
   async function submitMessage(event) {
     event.preventDefault();
-      return null;
     if (!activeRequest) return;
     setBusy(true);
     try {
